@@ -1323,25 +1323,23 @@ efficiency, accuracy, and business growth.</p>
     </div>
 
     <!-- RIGHT: Video player -->
-    <div class="promo-video-player-wrap">
-      <div class="promo-video-glow"></div>
-      <div class="video-player-wrap" data-player="promo1">
-        <video preload="metadata" src="video/PROMOTIONAL VIDEO.mov"></video>
-        <div class="video-play-overlay">
-          <div class="video-play-btn"><i class="fas fa-play"></i></div>
-        </div>
-        <div class="video-controls">
-          <div class="video-progress">
-            <div class="video-progress-fill"></div>
-            <div class="video-progress-thumb"></div>
-          </div>
-          <div class="video-controls-row">
-            <button class="video-ctrl-btn play-pause-btn"><i class="fas fa-play"></i></button>
-            <span class="video-time">0:00 / 0:00</span>
-            <button class="video-ctrl-btn fullscreen-btn"><i class="fas fa-expand"></i></button>
-          </div>
-        </div>
-      </div>
+<div class="promo-video-player-wrap">
+  <div class="promo-video-glow"></div>
+  <div style="position: relative; z-index: 1; border-radius: 18px; overflow: hidden;
+              box-shadow: 0 32px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(192,57,43,0.25);
+              aspect-ratio: 16/9;">
+    <iframe
+      width="100%"
+      height="100%"
+      src="https://www.youtube.com/embed/RPzo1BUnHFI"
+      title="HarmonyPOS Demo"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+      style="display: block; width: 100%; height: 100%;">
+    </iframe>
+  </div>
+</div>
 
     </div>
 
@@ -1646,4 +1644,5 @@ efficiency, accuracy, and business growth.</p>
   });
 </script>
 </body>
+
 </html>
