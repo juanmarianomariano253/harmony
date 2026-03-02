@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harmony Hardware and POS Solutions Inc.</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+  --red: #c0392b;
+  --red-dark: #96241b;
+  --red-light: #e74c3c;
+  --red-glow: rgba(192,57,43,0.25);
+  --gold: #d4a843;
+  --ink: #0f0a0a;
+  --ink-mid: #2a1a1a;
+  --ink-light: #5a3d3d;
+  --cream: #fdf6f0;
+  --cream-dark: #f5ede4;
+  --white: #ffffff;
+  --border: rgba(192,57,43,0.12);
+  --border-light: rgba(0,0,0,0.07);
+  --shadow-sm: 0 2px 12px rgba(15,10,10,0.08);
+  --shadow-md: 0 8px 32px rgba(15,10,10,0.12);
+  --shadow-lg: 0 20px 60px rgba(15,10,10,0.18);
+  --shadow-red: 0 8px 32px rgba(192,57,43,0.25);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Outfit', sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; line-height: 1.6; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--cream-dark); }
+::-webkit-scrollbar-thumb { background: var(--red); border-radius: 10px; }
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5vw; height: 72px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+nav.scrolled {
+  background: rgba(8,3,3,0.92); backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(192,57,43,0.15); height: 64px;
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif; font-size: 1.55rem; font-weight: 700;
+  color: #fff; text-decoration: none; letter-spacing: -0.02em;
+  display: flex; align-items: center; gap: 10px;
+}
+.nav-logo-mark {
+  width: 36px; height: 36px; border-radius: 9px;
+  background: linear-gradient(135deg, var(--red), var(--red-dark));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; color: #fff; box-shadow: 0 4px 12px var(--red-glow);
+}
+.nav-logo span { color: var(--red); }
+.nav-links {
+  display: flex; align-items: center; gap: 36px; list-style: none;
+  position: absolute; left: 50%; transform: translateX(-50%);
+}
+.nav-links a {
+  font-size: 0.85rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+  height: 1.5px; background: var(--red); transform: scaleX(0);
+  transform-origin: center; transition: transform 0.25s;
+}
+.nav-links a:hover { color: #fff; }
+.nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+.nav-links a.active { color: #fff; }
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+.nav-home-btn {
+  font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  color: rgba(255,255,255,0.65); text-decoration: none; padding: 9px 18px; border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.18); transition: all 0.25s;
+}
+.nav-home-btn.active, .nav-home-btn:hover { background: rgba(255,255,255,0.08); color: #fff; border-color: rgba(255,255,255,0.3); }
+.nav-cta {
+  font-size: 0.82rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  background: linear-gradient(135deg, var(--red-light), var(--red-dark));
+  color: #fff; text-decoration: none; padding: 10px 22px; border-radius: 8px;
+  box-shadow: 0 4px 16px var(--red-glow); transition: all 0.25s;
+  display: flex; align-items: center; gap: 8px;
+}
+.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--red-glow); }
+.nav-toggle { display: none; background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer; }
+
+/* HERO */
+.hero {
+  position: relative; min-height: 100vh;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  padding: 130px 5vw 100px; background: var(--ink); overflow: hidden;
+}
+.hero-bg-grid {
+  position: absolute; inset: 0; opacity: 0.035;
+  background-image: linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.hero-orb {
+  position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none;
+}
+.hero-orb-1 {
+  width: 700px; height: 700px; bottom: -350px; left: 50%; transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(192,57,43,0.38) 0%, transparent 60%);
+  animation: orbPulse 7s ease-in-out infinite;
+}
+.hero-orb-2 {
+  width: 400px; height: 400px; top: -150px; right: -150px;
+  background: radial-gradient(circle, rgba(212,168,67,0.1) 0%, transparent 60%);
+  animation: orbPulse 9s ease-in-out 2s infinite;
+}
+.hero-orb-3 {
+  width: 300px; height: 300px; top: 20%; left: -100px;
+  background: radial-gradient(circle, rgba(192,57,43,0.08) 0%, transparent 60%);
+  animation: orbPulse 11s ease-in-out 4s infinite;
+}
+@keyframes orbPulse { 0%,100%{opacity:1;} 50%{opacity:0.6;} }
+
+.hero-content { position: relative; z-index: 1; max-width: 780px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(192,57,43,0.15); border: 1px solid rgba(192,57,43,0.35);
+  color: #f5c5bf; font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 7px 16px; border-radius: 100px; margin-bottom: 30px;
+  opacity: 0; animation: fadeUp 0.6s 0.2s ease forwards;
+}
+.hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); animation: blink 2s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 6.5vw, 5.2rem);
+  color: #fff; line-height: 1.08; font-weight: 900;
+  opacity: 0; animation: fadeUp 0.7s 0.35s ease forwards;
+  letter-spacing: -0.025em;
+}
+.hero h1 em { color: var(--red); font-style: italic; }
+.hero-sub {
+  display: block; font-family: 'Outfit', sans-serif; font-weight: 300;
+  font-size: 0.55em; color: rgba(255,255,255,0.55); letter-spacing: 0.01em; margin-top: 8px;
+}
+.hero-desc {
+  max-width: 520px; margin: 28px auto 0;
+  color: rgba(255,255,255,0.5); font-size: 1.08rem; line-height: 1.85; font-weight: 300;
+  opacity: 0; animation: fadeUp 0.7s 0.5s ease forwards;
+}
+.hero-btns {
+  display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 42px;
+  opacity: 0; animation: fadeUp 0.7s 0.65s ease forwards;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: linear-gradient(135deg, var(--red-light), var(--red-dark));
+  color: #fff; text-decoration: none; font-size: 0.92rem; font-weight: 700;
+  letter-spacing: 0.04em; padding: 16px 32px; border-radius: 10px;
+  box-shadow: 0 8px 28px var(--red-glow); transition: all 0.25s;
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 36px var(--red-glow); }
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: transparent; color: rgba(255,255,255,0.8); text-decoration: none;
+  font-size: 0.92rem; font-weight: 500; padding: 16px 32px; border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.2); transition: all 0.25s;
+}
+.btn-outline:hover { border-color: rgba(255,255,255,0.45); color: #fff; transform: translateY(-3px); }
+
+.scroll-indicator {
+  position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: rgba(255,255,255,0.3); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+  opacity: 0; animation: fadeUp 0.7s 1s ease forwards;
+}
+.scroll-mouse { width: 22px; height: 34px; border: 1.5px solid rgba(255,255,255,0.2); border-radius: 20px; display: flex; align-items: flex-start; justify-content: center; padding-top: 5px; }
+.scroll-dot { width: 3px; height: 6px; background: var(--red); border-radius: 3px; animation: scrollDown 2s ease-in-out infinite; }
+@keyframes scrollDown { 0%{transform:translateY(0);opacity:1;} 100%{transform:translateY(12px);opacity:0;} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+
+/* STATS BAR */
+.stats-bar {
+  background: var(--white); border-bottom: 1px solid var(--border-light);
+  position: relative; z-index: 1;
+}
+.stats-inner {
+  max-width: 1100px; margin: 0 auto; padding: 0 5vw;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+}
+.stat {
+  text-align: center; padding: 52px 20px;
+  border-right: 1px solid var(--border-light);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative; overflow: hidden;
+}
+.stat:last-child { border-right: none; }
+.stat::before {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(192,57,43,0.03); opacity: 0; transition: opacity 0.3s;
+}
+.stat:hover { transform: translateY(-6px); }
+.stat:hover::before { opacity: 1; }
+.stat-icon {
+  width: 52px; height: 52px; border-radius: 13px;
+  background: linear-gradient(135deg, var(--red-light), var(--red-dark));
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 18px; box-shadow: var(--shadow-red);
+  transition: transform 0.3s;
+}
+.stat:hover .stat-icon { transform: scale(1.08); }
+.stat-icon i { color: #fff; font-size: 1.2rem; }
+.stat-num {
+  font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 900;
+  color: var(--red); margin-bottom: 8px; line-height: 1; letter-spacing: -0.02em;
+}
+.stat-label { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-light); }
+
+/* SECTIONS */
+.section { padding: 100px 5vw; position: relative; }
+.section.alt { background: var(--white); }
+.container { max-width: 1100px; margin: 0 auto; }
+.section-label {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--red); margin-bottom: 14px;
+}
+.section-label::before { content: ''; display: block; width: 24px; height: 1.5px; background: var(--red); }
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 3.5vw, 2.8rem); color: var(--ink);
+  margin-bottom: 56px; line-height: 1.18; font-weight: 700; letter-spacing: -0.02em;
+}
+.section-title em { color: var(--red); font-style: italic; }
+
+/* ABOUT */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; margin-bottom: 60px; }
+.about-text p { color: var(--ink-light); line-height: 1.9; margin-bottom: 20px; font-size: 1.02rem; }
+.about-text strong { color: var(--ink); font-weight: 600; }
+.about-text p:last-child { margin-bottom: 0; }
+.about-image-wrap { position: relative; }
+.about-img-card {
+  border-radius: 20px; overflow: hidden;
+  box-shadow: var(--shadow-lg); position: relative;
+}
+.about-img-card img { width: 100%; display: block; }
+.about-img-overlay {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(0deg, rgba(8,3,3,0.7) 0%, transparent 60%);
+  padding: 24px 22px 20px;
+}
+.about-img-overlay span {
+  font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em;
+  text-transform: uppercase; color: rgba(255,255,255,0.7);
+}
+.about-img-overlay strong { display: block; color: #fff; font-size: 1rem; margin-top: 2px; }
+
+/* STORY CARD */
+.story-card {
+  background: var(--white); border: 1px solid var(--border-light);
+  border-radius: 20px; padding: 52px;
+  margin-bottom: 64px; position: relative; overflow: hidden;
+}
+.story-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 4px; background: linear-gradient(180deg, var(--red-light), var(--red-dark));
+}
+.story-card-title {
+  font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 700;
+  color: var(--ink); margin-bottom: 36px; text-align: center;
+}
+.story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.story-grid p { color: var(--ink-light); line-height: 1.88; font-size: 0.98rem; }
+.story-grid strong { color: var(--red); font-weight: 600; }
+
+/* MISSION / VISION */
+.mv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 72px; }
+.mv-card {
+  background: var(--cream-dark); border: 1px solid var(--border-light);
+  border-radius: 20px; padding: 46px 40px; text-align: center;
+  position: relative; overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+}
+.mv-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 3px; background: linear-gradient(90deg, var(--red), var(--red-dark));
+  transform: scaleX(0); transform-origin: center; transition: transform 0.3s;
+}
+.mv-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); }
+.mv-card:hover::after { transform: scaleX(1); }
+.mv-icon {
+  width: 60px; height: 60px; border-radius: 15px;
+  background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.2);
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;
+}
+.mv-icon i { color: var(--red); font-size: 1.4rem; }
+.mv-card h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--ink); margin-bottom: 14px; }
+.mv-card p { color: var(--ink-light); line-height: 1.82; font-size: 0.98rem; }
+
+/* CORE VALUES */
+.values-head { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--ink); text-align: center; margin-bottom: 36px; }
+.values-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.value-page { display: none; }
+.value-page.active { display: block; }
+.value-card {
+  background: var(--cream-dark); border: 1px solid var(--border-light);
+  border-radius: 16px; padding: 28px; display: flex; gap: 18px; align-items: flex-start;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s, border-color 0.3s;
+}
+.value-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-sm); border-color: rgba(192,57,43,0.2); }
+.value-icon {
+  width: 46px; height: 46px; border-radius: 11px;
+  background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.2);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.value-icon i { color: var(--red); font-size: 1rem; }
+.value-card h5 { font-weight: 700; font-size: 1.05rem; color: var(--ink); margin-bottom: 8px; }
+.value-card p { color: var(--ink-light); font-size: 0.92rem; line-height: 1.75; }
+.pagination-row { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 28px; }
+.pg-btn {
+  width: 40px; height: 40px; border-radius: 9px; border: 1.5px solid var(--border-light);
+  background: var(--white); color: var(--ink-light); font-size: 0.88rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; font-family: 'Outfit', sans-serif;
+}
+.pg-btn:hover, .pg-btn.active { background: var(--red); border-color: var(--red); color: #fff; }
+
+/* TESTIMONIALS */
+.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.testi-card {
+  background: var(--white); border: 1px solid var(--border-light);
+  border-radius: 18px; padding: 34px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+  position: relative;
+}
+.testi-card::before {
+  content: ''; position: absolute; inset: 0;
+  border-radius: 18px; border: 1px solid transparent;
+  background: linear-gradient(135deg, rgba(192,57,43,0.12), transparent) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out; mask-composite: exclude;
+  opacity: 0; transition: opacity 0.3s;
+}
+.testi-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+.testi-card:hover::before { opacity: 1; }
+.quote-mark {
+  font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900;
+  color: var(--red); opacity: 0.15; line-height: 1; margin-bottom: 12px;
+  display: block; height: 36px;
+}
+.testi-card p { color: var(--ink-light); font-size: 0.98rem; line-height: 1.8; font-style: italic; }
+.testi-cite {
+  display: flex; align-items: center; gap: 10px; margin-top: 20px;
+  font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--red);
+}
+.testi-cite::before { content: ''; display: block; width: 20px; height: 1.5px; background: var(--red); }
+
+/* CAROUSEL */
+.carousel-section { background: var(--cream-dark); }
+.carousel-wrap {
+  max-width: 680px; margin: 0 auto; position: relative;
+  border-radius: 20px; overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-light);
+}
+.carousel-track { display: flex; transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1); }
+.carousel-slide { min-width: 100%; background: var(--white); }
+.carousel-slide img { width: 100%; max-height: 380px; object-fit: contain; display: block; padding: 20px; }
+.carousel-btn {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 42px; height: 42px; border-radius: 50%; border: none;
+  background: rgba(8,3,3,0.6); color: #fff; font-size: 0.9rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(8px); transition: background 0.2s;
+}
+.carousel-btn:hover { background: var(--red); }
+.carousel-btn.prev { left: 14px; }
+.carousel-btn.next { right: 14px; }
+.carousel-dots {
+  display: flex; justify-content: center; gap: 7px; margin-top: 20px;
+}
+.carousel-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--border-light); cursor: pointer; transition: all 0.25s;
+}
+.carousel-dot.active { background: var(--red); transform: scale(1.3); }
+
+/* CTA BANNER */
+.cta-banner {
+  background: linear-gradient(135deg, var(--ink-mid) 0%, #1a0808 100%);
+  border-radius: 22px; padding: 60px 56px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 32px;
+  margin-top: 56px; position: relative; overflow: hidden;
+  border: 1px solid rgba(192,57,43,0.2);
+}
+.cta-banner::before {
+  content: ''; position: absolute; top: -120px; right: -120px;
+  width: 400px; height: 400px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(192,57,43,0.2) 0%, transparent 60%);
+}
+.cta-banner-text { position: relative; z-index: 1; }
+.cta-banner h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.cta-banner p { color: rgba(255,255,255,0.55); font-size: 1rem; line-height: 1.7; max-width: 460px; }
+.cta-banner-btn {
+  flex-shrink: 0; position: relative; z-index: 1;
+  display: inline-flex; align-items: center; gap: 12px;
+  background: linear-gradient(135deg, var(--red-light), var(--red-dark));
+  color: #fff; font-size: 0.88rem; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 16px 32px; border-radius: 12px; text-decoration: none;
+  box-shadow: 0 8px 28px var(--red-glow); transition: all 0.25s;
+}
+.cta-banner-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 36px var(--red-glow); }
+
+/* FOOTER */
+footer {
+  background: var(--ink); border-top: 1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.3); text-align: center;
+  padding: 32px 5vw; font-size: 0.88rem;
+}
+footer strong { color: rgba(255,255,255,0.55); }
+
+/* BACK TO TOP */
+#back-to-top {
+  position: fixed; bottom: 28px; right: 28px; z-index: 900;
+  width: 48px; height: 48px; border-radius: 12px;
+  background: var(--ink); border: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer; display: none; align-items: center; justify-content: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3); transition: all 0.25s; color: #fff; font-size: 0.9rem;
+}
+#back-to-top:hover { transform: translateY(-3px); background: var(--red); }
+#back-to-top.visible { display: flex; }
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: block; }
+  .nav-cta { display: none; }
+  .nav-links.open {
+    display: flex; flex-direction: column;
+    position: absolute; top: 72px; left: 0; right: 0;
+    background: rgba(8,3,3,0.97); padding: 24px 5vw; gap: 20px;
+    border-top: 1px solid rgba(192,57,43,0.15);
+  }
+  .about-grid, .story-grid, .mv-grid { grid-template-columns: 1fr; }
+  .stats-inner { grid-template-columns: 1fr; }
+  .stat { border-right: none; border-bottom: 1px solid var(--border-light); padding: 36px 20px; }
+  .stat:last-child { border-bottom: none; }
+  .testi-grid, .values-grid { grid-template-columns: 1fr; }
+  .cta-banner { padding: 36px 28px; flex-direction: column; }
+  .hero h1 { font-size: clamp(2.4rem, 8vw, 3.5rem); }
+}
+@media (max-width: 480px) {
+  .hero-btns { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body>
+
+<nav id="mainNav">
+  <a class="nav-logo" href="index.html">
+    <div class="nav-logo-mark"><i class="fas fa-cash-register"></i></div>
+    HarmonyPOS</span>
+  </a>
+  <button class="nav-toggle" id="navToggle"><i class="fas fa-bars"></i></button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about" class="active">About</a></li>
+    <li><a href="features.html">Features</a></li>
+    <li><a href="why-us.html">Why Us</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="index.html" class="nav-home-btn active"><i class="fas fa-home" style="font-size:.75rem;margin-right:6px;"></i>Home</a>
+    <a href="contact.html" class="nav-cta"><i class="fas fa-phone"></i>Get Demo</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Trusted since 2019 · Lipa City, Batangas, Philippines
+    </div>
+    <h1>
+      Your trusted <em>POS Partner</em>
+      <span class="hero-sub">in Filipino Business Growth</span>
+    </h1>
+    <p class="hero-desc">Empowering Filipino businesses with smart hardware and software POS solutions built to scale, perform, and last.</p>
+    <div class="hero-btns">
+      <a href="contact.html" class="btn-primary"><i class="fas fa-play-circle"></i>Get a Free Demo</a>
+      <a href="features.html" class="btn-outline"><i class="fas fa-layer-group"></i>See Features</a>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-mouse"><div class="scroll-dot"></div></div>
+    Scroll
+  </div>
+</section>
+
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat">
+      <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
+      <div class="stat-num">2019</div>
+      <div class="stat-label">Founded</div>
+    </div>
+    <div class="stat">
+      <div class="stat-icon"><i class="fas fa-building"></i></div>
+      <div class="stat-num">2023</div>
+      <div class="stat-label">Incorporated</div>
+    </div>
+    <div class="stat">
+      <div class="stat-icon"><i class="fas fa-trophy"></i></div>
+      <div class="stat-num">#1</div>
+      <div class="stat-label">POS Choice</div>
+    </div>
+  </div>
+</div>
+
+<section class="section alt" id="about">
+  <div class="container">
+    <div class="section-label">About Us</div>
+    <h2 class="section-title">A company built on <em>passion</em> and expertise</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p><strong>Founded in 2019</strong> as a freelance venture driven by passion and technical expertise, Harmony Hardware and POS Solutions Inc. was officially incorporated in 2023. Our journey reflects continuous expansion and innovation in delivering complete POS hardware and software solutions.</p>
+        <p><strong>Our Founder</strong> brings extensive programming knowledge and industry experience, enabling us to diversify into various software platforms that support sales growth and business expansion.</p>
+        <p><strong>From Software to Hardware,</strong> we've evolved from developing system software to providing comprehensive POS solutions, establishing a strong market presence and competitive edge in the Philippines.</p>
+      </div>
+      <div class="about-image-wrap">
+        <div class="about-img-card">
+          <img src="companyHD.png" alt="Harmony POS Company" onerror="this.style.display='none';this.parentNode.style.background='linear-gradient(135deg,#1a0808,#2a1212)';this.parentNode.style.minHeight='280px';">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="story-card">
+      <div class="story-card-title">Our Journey & Growth</div>
+      <div class="story-grid">
+        <p>Despite operating in a competitive environment, we've never let challenges hinder our growth. Powered by talented stakeholders, we've continuously sought promising individuals and strengthened our corporate departments.</p>
+        <p>Our advancement includes sophisticated ERP systems that enhance inventory and supply chain management, ensuring long-term sustainability through automation and systematic processes.</p>
+        <p>From product lines to manpower, teams, departments, and technologies — every area has been reinforced for future success. This cycle of discovery, innovation, and development reflects our commitment to never stop evolving.</p>
+        <p><strong>With over 5 years of experience in the industry,</strong> Harmony Hardware and POS Solutions Inc. stands as one of the best choices for POS systems in the Philippines.</strong></p>
+      </div>
+    </div>
+
+    <div class="mv-grid">
+      <div class="mv-card">
+        <div class="mv-icon"><i class="fas fa-rocket"></i></div>
+        <h3>Our Mission</h3>
+        <p>The company's mission is to empower businesses globally with innovative software, hardware, and POS solutions that enhance operations, improve customer experiences, and drive sustainable growth.</p>
+      </div>
+      <div class="mv-card">
+        <div class="mv-icon"><i class="fas fa-eye"></i></div>
+        <h3>Our Vision</h3>
+        <p>It's vision is to be leading provider of integrated business solutions, revolutionizing digital operations while prioritizing reliability, harmony, and exceptional service.</p>
+      </div>
+    </div>
+
+    <div class="values-head">Company Core Values</div>
+    <div id="vp-1" class="value-page active">
+      <div class="values-grid">
+        <div class="value-card"><div class="value-icon"><i class="fas fa-lightbulb"></i></div><div><h5>Innovation</h5><p>The company demonstrates its commitment to creativity and continuous improvement in all aspects of its operations. It consistently pursues innovative solutions, embraces emerging technologies, and refines its processes to drive sustainable growth and long-term success.</p></div></div>
+        <div class="value-card"><div class="value-icon"><i class="fas fa-shield-alt"></i></div><div><h5>Integrity</h5><p>The company upholds the highest ethical standards through honesty, fairness, and transparency in all its dealings. It builds trust by ensuring accountability and professionalism in every interaction with clients, partners, and stakeholders.</p></div></div>
+      </div>
+    </div>
+    <div id="vp-2" class="value-page">
+      <div class="values-grid">
+        <div class="value-card"><div class="value-icon"><i class="fas fa-user-check"></i></div><div><h5>Customer-Centric</h5><p>The company places strong emphasis on customer success by delivering personalized and results-driven solutions. It strives to understand client needs, anticipate challenges, and provide reliable support that fosters lasting partnerships.</p></div></div>
+        <div class="value-card"><div class="value-icon"><i class="fas fa-users"></i></div><div><h5>Collaboration</h5><p>The company values teamwork and promotes open communication across all levels of the organization. It believes that collaboration among employees, customers, and partners strengthens relationships and leads to greater collective achievement.</p></div></div>
+      </div>
+    </div>
+    <div id="vp-3" class="value-page">
+      <div class="values-grid">
+        <div class="value-card"><div class="value-icon"><i class="fas fa-star"></i></div><div><h5>Quality Excellence</h5><p>The company is dedicated to delivering high-quality products and services that meet rigorous industry standards. It continuously enhances its systems, processes, and performance to ensure consistency, reliability, and customer satisfaction.</p></div></div>
+        <div class="value-card"><div class="value-icon"><i class="fas fa-sync-alt"></i></div><div><h5>Adaptability</h5><p>The company remains agile in responding to market shifts, industry trends, and technological advancements. It embraces change with a proactive mindset, allowing it to remain competitive and forward-thinking in a dynamic business environment.</p></div></div>
+      </div>
+    </div>
+    <div id="vp-4" class="value-page">
+      <div class="values-grid" style="grid-template-columns:1fr;max-width:500px;margin:0 auto;">
+        <div class="value-card"><div class="value-icon"><i class="fas fa-leaf"></i></div><div><h5>Sustainability</h5><p>The company integrates environmental and social responsibility into its operations and long-term strategies. It supports sustainable practices that create lasting value for its stakeholders, communities, and future generations.</p></div></div>
+      </div>
+    </div>
+    <div class="pagination-row">
+      <button class="pg-btn" onclick="vpNav('prev')"><i class="fas fa-chevron-left"></i></button>
+      <button class="pg-btn active" data-vp="1" onclick="vpNav('1')">1</button>
+      <button class="pg-btn" data-vp="2" onclick="vpNav('2')">2</button>
+      <button class="pg-btn" data-vp="3" onclick="vpNav('3')">3</button>
+      <button class="pg-btn" data-vp="4" onclick="vpNav('4')">4</button>
+      <button class="pg-btn" onclick="vpNav('next')"><i class="fas fa-chevron-right"></i></button>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-label">Social Proof</div>
+    <h2 class="section-title">What our <em>clients say</em></h2>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <span class="quote-mark">"</span>
+        <p>HarmonyPOS has transformed our retail operations with its reliable and user-friendly interface. Setup was seamless and the support team is outstanding.</p>
+        <cite class="testi-cite">Retail Store Owner</cite>
+      </div>
+      <div class="testi-card">
+        <span class="quote-mark">"</span>
+        <p>The inventory management features are a complete game-changer for our business operations. Real-time monitoring alone saved us countless hours weekly.</p>
+        <cite class="testi-cite">Restaurant Manager</cite>
+      </div>
+      <div class="testi-card">
+        <span class="quote-mark">"</span>
+        <p>Excellent support and custom solutions tailored perfectly to our specific needs. The lifetime license means we never worry about renewal costs.</p>
+        <cite class="testi-cite">Small Business Owner</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt carousel-section">
+  <div class="container">
+    <div class="section-label">Clients</div>
+    <h2 class="section-title">Our valued <em>clients</em></h2>
+    <div class="carousel-wrap">
+      <div class="carousel-track" id="carouselTrack">
+        <div class="carousel-slide"><img src="picture/1.jpg" alt="Client 1"></div>
+        <div class="carousel-slide"><img src="picture/2.jpg" alt="Client 2"></div>
+        <div class="carousel-slide"><img src="picture/3.jpg" alt="Client 3"></div>
+        <div class="carousel-slide"><img src="picture/4.jpg" alt="Client 4"></div>
+        <div class="carousel-slide"><img src="picture/5.jpg" alt="Client 5"></div>
+        <div class="carousel-slide"><img src="picture/6.jpg" alt="Client 6"></div>
+        <div class="carousel-slide"><img src="picture/7.jpg" alt="Client 7"></div>
+        <div class="carousel-slide"><img src="picture/8.jpg" alt="Client 8"></div>
+        <div class="carousel-slide"><img src="picture/9.jpg" alt="Client 9"></div>
+        <div class="carousel-slide"><img src="picture/10.jpg" alt="Client 10"></div>
+      </div>
+      <button class="carousel-btn prev" onclick="moveCarousel(-1)"><i class="fas fa-chevron-left"></i></button>
+      <button class="carousel-btn next" onclick="moveCarousel(1)"><i class="fas fa-chevron-right"></i></button>
+    </div>
+    <div class="carousel-dots" id="carouselDots"></div>
+
+    <div class="cta-banner">
+      <div class="cta-banner-text">
+        <h3>Need a Custom POS Solution?</h3>
+        <p>We build systems tailored to your business needs — from hardware selection to full software customization.</p>
+      </div>
+      <a href="contact.html" class="cta-banner-btn"><i class="fas fa-arrow-right"></i>Contact Us</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>Harmony Hardware and POS Solutions Inc.</strong><br>
+  © 2019 · Your POS Partner in Business
+</footer>
+<button id="back-to-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+<script>
+  // Nav
+  const nav = document.getElementById('mainNav');
+  const applyScroll = () => nav.classList.toggle('scrolled', window.scrollY > 60);
+  applyScroll();
+  window.addEventListener('scroll', applyScroll);
+  document.getElementById('navToggle').onclick = () => document.getElementById('navLinks').classList.toggle('open');
+
+  // Back to top
+  const btt = document.getElementById('back-to-top');
+  window.addEventListener('scroll', () => btt.classList.toggle('visible', window.scrollY > 200));
+  btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  // Values pagination
+  let curVP = 1;
+  function vpNav(p) {
+    const total = 4;
+    if (p === 'prev') curVP = curVP === 1 ? total : curVP - 1;
+    else if (p === 'next') curVP = curVP === total ? 1 : curVP + 1;
+    else curVP = parseInt(p);
+    document.querySelectorAll('.value-page').forEach(el => el.classList.remove('active'));
+    document.getElementById('vp-' + curVP).classList.add('active');
+    document.querySelectorAll('.pg-btn[data-vp]').forEach(b => b.classList.toggle('active', b.dataset.vp == curVP));
+  }
+
+  // Carousel
+  let cIdx = 0;
+  const track = document.getElementById('carouselTrack');
+  const slides = track.querySelectorAll('.carousel-slide');
+  const dotsContainer = document.getElementById('carouselDots');
+
+  slides.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goToSlide(i);
+    dotsContainer.appendChild(d);
+  });
+
+  function goToSlide(idx) {
+    cIdx = idx;
+    track.style.transform = `translateX(-${cIdx * 100}%)`;
+    document.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === cIdx));
+  }
+  function moveCarousel(dir) { goToSlide((cIdx + dir + slides.length) % slides.length); }
+  setInterval(() => moveCarousel(1), 3800);
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.mv-card, .value-card, .testi-card, .stat');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(22px)';
+    el.style.transition = `opacity 0.55s ${(i % 3) * 80}ms ease, transform 0.55s ${(i % 3) * 80}ms cubic-bezier(0.16,1,0.3,1)`;
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
