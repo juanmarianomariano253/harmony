@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HarmonyPOS Features | Harmony Hardware and POS Solutions Inc.</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+  --red: #c0392b;
+  --red-dark: #96241b;
+  --red-light: #e74c3c;
+  --red-glow: rgba(192,57,43,0.25);
+  --gold: #d4a843;
+  --ink: #0f0a0a;
+  --ink-mid: #2a1a1a;
+  --ink-light: #5a3d3d;
+  --cream: #fdf6f0;
+  --cream-dark: #f5ede4;
+  --white: #ffffff;
+  --border: rgba(192,57,43,0.12);
+  --border-light: rgba(0,0,0,0.07);
+  --glass: rgba(255,255,255,0.72);
+  --shadow-sm: 0 2px 12px rgba(15,10,10,0.08);
+  --shadow-md: 0 8px 32px rgba(15,10,10,0.12);
+  --shadow-lg: 0 20px 60px rgba(15,10,10,0.18);
+  --shadow-red: 0 8px 32px rgba(192,57,43,0.25);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--cream-dark); }
+::-webkit-scrollbar-thumb { background: var(--red); border-radius: 10px; }
+
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5vw; height: 72px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+nav.scrolled {
+  background: rgba(8, 3, 3, 0.92);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(192,57,43,0.15);
+  height: 64px;
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.55rem; font-weight: 700;
+  color: #fff; text-decoration: none;
+  letter-spacing: -0.02em;
+  display: flex; align-items: center; gap: 10px;
+}
+.nav-logo-mark {
+  width: 36px; height: 36px; border-radius: 9px;
+  background: linear-gradient(135deg, var(--red), var(--red-dark));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; color: #fff;
+  box-shadow: 0 4px 12px var(--red-glow);
+}
+.nav-logo span { color: var(--red); }
+
+.nav-links {
+  display: flex; align-items: center; gap: 36px;
+  list-style: none; position: absolute; left: 50%; transform: translateX(-50%);
+  overflow: visible;
+}
+.nav-links li { overflow: visible; }
+.nav-links a {
+  font-size: 0.85rem; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: rgba(255,255,255,0.6);
+  text-decoration: none; transition: color 0.2s;
+  position: relative; padding-bottom: 6px;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 1.5px; background: var(--red); transform: scaleX(0);
+  transform-origin: center; transition: transform 0.25s;
+}
+.nav-links a:hover { color: #fff; }
+.nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+.nav-links a.active { color: #fff; }
+
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+.nav-home-btn {
+  font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  color: rgba(255,255,255,0.65); text-decoration: none;
+  padding: 9px 18px; border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.18);
+  transition: all 0.25s;
+}
+.nav-home-btn:hover { background: rgba(255,255,255,0.08); color: #fff; border-color: rgba(255,255,255,0.3); }
+.nav-cta {
+  font-size: 0.82rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  background: linear-gradient(135deg, var(--red-light), var(--red-dark));
+  color: #fff; text-decoration: none;
+  padding: 10px 22px; border-radius: 8px;
+  box-shadow: 0 4px 16px var(--red-glow);
+  transition: all 0.25s; display: flex; align-items: center; gap: 8px;
+}
+.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--red-glow); }
+.nav-toggle { display: none; background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer; }
+
+/* ── HERO ── */
+.hero {
+  position: relative; min-height: 560px;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  padding: 130px 5vw 100px;
+  background: var(--ink);
+  overflow: hidden;
+}
+.hero-bg-grid {
+  position: absolute; inset: 0; opacity: 0.04;
+  background-image: linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.hero-orb {
+  position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none;
+}
+.hero-orb-1 {
+  width: 600px; height: 600px; bottom: -300px; left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(192,57,43,0.4) 0%, transparent 60%);
+  animation: pulse 6s ease-in-out infinite;
+}
+.hero-orb-2 {
+  width: 350px; height: 350px; top: -100px; right: -100px;
+  background: radial-gradient(circle, rgba(212,168,67,0.12) 0%, transparent 60%);
+  animation: pulse 8s ease-in-out 2s infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; transform: translateX(-50%) scale(1); } 50% { opacity: 0.7; transform: translateX(-50%) scale(1.05); } }
+@keyframes pulse2 { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+.hero-content { position: relative; z-index: 1; }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(192,57,43,0.15);
+  border: 1px solid rgba(192,57,43,0.35);
+  color: #f5c5bf; font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 7px 16px; border-radius: 100px; margin-bottom: 28px;
+  opacity: 0; animation: fadeUp 0.6s 0.2s ease forwards;
+}
+.hero-badge-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--red); animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.8rem, 5.5vw, 4.5rem);
+  color: #fff; line-height: 1.1; font-weight: 900;
+  opacity: 0; animation: fadeUp 0.7s 0.35s ease forwards;
+  letter-spacing: -0.02em;
+}
+.hero h1 em { color: var(--red); font-style: italic; }
+.hero h1 .hero-line2 { display: block; font-weight: 400; color: rgba(255,255,255,0.7); font-size: 0.85em; }
+
+.hero-desc {
+  max-width: 550px; margin: 24px auto 0; position: relative; z-index: 1;
+  color: rgba(255,255,255,0.5); font-size: 1.05rem; line-height: 1.85; font-weight: 300;
+  opacity: 0; animation: fadeUp 0.7s 0.5s ease forwards;
+}
+
+.hero-stats {
+  display: flex; align-items: center; justify-content: center; gap: 40px;
+  margin-top: 52px;
+  opacity: 0; animation: fadeUp 0.7s 0.65s ease forwards;
+}
+.hero-stat { text-align: center; }
+.hero-stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem; font-weight: 700; color: #fff;
+}
+.hero-stat-num span { color: var(--red); }
+.hero-stat-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); margin-top: 2px; }
+.hero-stat-divider { width: 1px; height: 40px; background: rgba(255,255,255,0.12); }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+.scroll-indicator {
+  position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: rgba(255,255,255,0.3); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+  animation: fadeUp 0.7s 1s ease forwards; opacity: 0;
+}
+.scroll-mouse {
+  width: 22px; height: 34px; border: 1.5px solid rgba(255,255,255,0.2);
+  border-radius: 20px; display: flex; align-items: flex-start; justify-content: center;
+  padding-top: 5px;
+}
+.scroll-dot {
+  width: 3px; height: 6px; background: var(--red); border-radius: 3px;
+  animation: scrollDown 2s ease-in-out infinite;
+}
+@keyframes scrollDown { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(12px); opacity: 0; } }
+
+/* ── SECTIONS ── */
+.section { padding: 100px 5vw; position: relative; }
+.section.alt { background: var(--white); }
+.section.dark { background: #1e1010; }
+.container { max-width: 1100px; margin: 0 auto; }
+
+.section-label {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--red); margin-bottom: 14px;
+}
+.section-label::before {
+  content: ''; display: block; width: 24px; height: 1.5px; background: var(--red);
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  color: var(--ink); margin-bottom: 56px; line-height: 1.18;
+  font-weight: 700; letter-spacing: -0.02em;
+}
+.section.dark .section-title { color: #fff; }
+.section-title em { color: var(--red); font-style: italic; }
+
+/* ── PRICING SECTION ── */
+.pricing-section {
+  background: var(--white); padding: 100px 5vw;
+}
+.pricing-header { max-width: 600px; margin-bottom: 60px; }
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.pricing-card {
+  background: var(--cream); border: 1.5px solid var(--border-light);
+  border-radius: 18px; padding: 36px 32px;
+  cursor: pointer; position: relative; overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s, border-color 0.3s;
+}
+.pricing-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(192,57,43,0.06) 0%, transparent 60%);
+  opacity: 0; transition: opacity 0.3s;
+}
+.pricing-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: rgba(192,57,43,0.3); }
+.pricing-card:hover::before { opacity: 1; }
+.pricing-card.featured {
+  background: linear-gradient(145deg, #1a0808, #2a0f0f);
+  border-color: rgba(192,57,43,0.4);
+  box-shadow: 0 0 0 1px rgba(192,57,43,0.15), var(--shadow-md);
+}
+.pricing-card.featured .pricing-name { color: rgba(255,255,255,0.6); }
+.pricing-card.featured .pricing-price { color: #fff; }
+.pricing-card.featured .pricing-price-sub { color: rgba(255,255,255,0.4); }
+.pricing-card.featured .pricing-desc { color: rgba(255,255,255,0.55); }
+
+.featured-badge {
+  position: absolute; top: 18px; right: 18px;
+  background: linear-gradient(135deg, var(--red-light), var(--red-dark));
+  color: #fff; font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 100px;
+  box-shadow: 0 4px 12px var(--red-glow);
+}
+
+.pricing-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.2);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+}
+.pricing-icon i { color: var(--red); font-size: 1.15rem; }
+.pricing-card.featured .pricing-icon { background: rgba(192,57,43,0.2); }
+
+.pricing-name {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink-light); margin-bottom: 8px;
+}
+.pricing-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem; font-weight: 900; color: var(--ink);
+  line-height: 1; margin-bottom: 4px; letter-spacing: -0.03em;
+}
+.pricing-price-sub { font-size: 0.82rem; color: var(--ink-light); margin-bottom: 16px; }
+.pricing-desc {
+  font-size: 0.92rem; color: var(--ink-light); line-height: 1.65;
+  margin-bottom: 24px;
+}
+.pricing-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.82rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--red); transition: gap 0.2s;
+}
+.pricing-cta i { font-size: 0.75rem; transition: transform 0.2s; }
+.pricing-card:hover .pricing-cta { gap: 12px; }
+.pricing-card:hover .pricing-cta i { transform: translateX(2px); }
+.pricing-card.featured .pricing-cta { color: rgba(255,255,255,0.7); }
+.pricing-card.featured:hover .pricing-cta { color: #fff; }
+
+.payment-notice {
+  background: linear-gradient(135deg, var(--red), var(--red-dark));
+  border-radius: 14px; padding: 22px 32px;
+  display: flex; align-items: center; gap: 20px;
+  box-shadow: var(--shadow-red);
+}
+.payment-notice i { font-size: 1.3rem; color: rgba(255,255,255,0.7); flex-shrink: 0; }
+.payment-notice p { color: #fff; font-weight: 600; font-size: 0.95rem; line-height: 1.6; }
+.payment-notice p span { color: rgba(255,255,255,0.7); font-weight: 400; }
+
+/* ── HARDWARE SPECS ── */
+.specs-wrap {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 48px;
+}
+.specs-card {
+  background: var(--cream-dark); border: 1px solid var(--border-light);
+  border-radius: 16px; padding: 32px;
+  display: flex; flex-direction: column; gap: 20px;
+}
+.specs-card-header { display: flex; align-items: center; gap: 14px; }
+.specs-icon {
+  width: 46px; height: 46px; border-radius: 11px;
+  background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.2);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.specs-icon i { color: var(--red); font-size: 1.1rem; }
+.specs-card-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--ink); }
+.specs-items { display: flex; flex-direction: column; gap: 10px; }
+.specs-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px; background: var(--white);
+  border: 1px solid var(--border-light); border-radius: 9px;
+  font-size: 0.9rem; color: var(--ink-mid);
+  transition: border-color 0.2s, transform 0.2s;
+}
+.specs-item:hover { border-color: rgba(192,57,43,0.25); transform: translateX(4px); }
+.specs-item i { color: var(--red); font-size: 0.85rem; width: 16px; text-align: center; }
+
+/* ── FEATURE CARDS ── */
+.features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.feature-card {
+  background: var(--white); border: 1px solid var(--border-light);
+  border-radius: 18px; padding: 32px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+  position: relative; overflow: hidden;
+}
+.section.alt .feature-card { background: var(--cream); }
+.feature-card::after {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px; background: linear-gradient(180deg, var(--red), var(--red-dark));
+  transform: scaleY(0); transform-origin: top; transition: transform 0.3s;
+}
+.feature-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+.feature-card:hover::after { transform: scaleY(1); }
+.feature-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: rgba(192,57,43,0.08);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 18px;
+}
+.feature-icon i { color: var(--red); font-size: 1.15rem; }
+.feature-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--ink); margin-bottom: 14px; }
+.feature-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.feature-list li {
+  font-size: 0.92rem; color: var(--ink-light); line-height: 1.55;
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.feature-list li::before {
+  content: ''; flex-shrink: 0; width: 5px; height: 5px;
+  border-radius: 50%; background: var(--red); margin-top: 8px; opacity: 0.7;
+}
+
+/* ── INVENTORY MONITOR CARDS ── */
+.inventory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.inv-card {
+  background: var(--white); border: 1px solid var(--border-light);
+  border-radius: 18px; padding: 30px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+}
+.inv-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+.inv-card-top {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  margin-bottom: 20px;
+}
+.inv-icon {
+  width: 46px; height: 46px; border-radius: 11px;
+  background: rgba(192,57,43,0.08);
+  display: flex; align-items: center; justify-content: center;
+}
+.inv-icon i { color: var(--red); font-size: 1.1rem; }
+.inv-tag {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--red);
+  background: rgba(192,57,43,0.08); padding: 4px 10px; border-radius: 100px;
+}
+.inv-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 12px; }
+.inv-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.inv-list li { font-size: 0.88rem; color: var(--ink-light); display: flex; align-items: center; gap: 9px; }
+.inv-list li::before { content: '→'; color: var(--red); font-size: 0.75rem; }
+
+/* ── TRANSACTIONS ── */
+.tx-section {
+  background: #1e1010; padding: 100px 5vw;
+}
+.tx-section .section-label { color: rgba(255,255,255,0.45); }
+.tx-section .section-label::before { background: rgba(192,57,43,0.5); }
+.tx-section .section-title { color: #fff; }
+
+.tx-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px;
+}
+.tx-item {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.11);
+  border-radius: 12px; padding: 18px 16px;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  text-align: center; cursor: default;
+  transition: background 0.25s, border-color 0.25s, transform 0.25s;
+}
+.tx-item:hover {
+  background: rgba(192,57,43,0.18);
+  border-color: rgba(192,57,43,0.4);
+  transform: translateY(-3px);
+}
+.tx-item i { color: var(--red); font-size: 1.2rem; }
+.tx-item span { font-size: 0.83rem; color: rgba(255,255,255,0.78); line-height: 1.45; font-weight: 500; }
+
+/* ── SECURITY ── */
+.security-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.sec-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.11);
+  border-radius: 16px; padding: 28px 22px; text-align: center;
+  transition: background 0.25s, border-color 0.25s, transform 0.3s;
+}
+.sec-card:hover {
+  background: rgba(192,57,43,0.18);
+  border-color: rgba(192,57,43,0.35);
+  transform: translateY(-4px);
+}
+.sec-card-icon {
+  width: 52px; height: 52px; border-radius: 13px;
+  background: rgba(192,57,43,0.2); border: 1px solid rgba(192,57,43,0.3);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+}
+.sec-card-icon i { color: var(--red); font-size: 1.25rem; }
+.sec-card span { font-size: 0.9rem; color: rgba(255,255,255,0.82); line-height: 1.5; }
+
+/* ── REPORTING ── */
+.reporting-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 50px; }
+.report-card {
+  background: var(--cream-dark); border: 1px solid var(--border-light);
+  border-radius: 18px; padding: 36px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+}
+.report-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+.report-icon {
+  width: 50px; height: 50px; border-radius: 13px;
+  background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.2);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+}
+.report-icon i { color: var(--red); font-size: 1.2rem; }
+.report-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--ink); margin-bottom: 16px; }
+.report-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.report-list li {
+  font-size: 0.92rem; color: var(--ink-light); line-height: 1.55;
+  display: flex; align-items: center; gap: 12px;
+}
+.report-list li i { color: var(--red); font-size: 0.8rem; flex-shrink: 0; }
+.addon-tag {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; padding: 3px 8px; border-radius: 5px;
+  margin-left: auto; white-space: nowrap;
+}
+.addon-tag.required { background: rgba(192,57,43,0.1); color: var(--red); }
+.addon-tag.addon { background: rgba(212,168,67,0.12); color: var(--gold); border: 1px solid rgba(212,168,67,0.25); }
+
+/* ── CTA BANNER ── */
+.cta-banner {
+  background: linear-gradient(135deg, var(--ink-mid) 0%, #1a0808 100%);
+  border-radius: 22px; padding: 60px 56px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 32px;
+  position: relative; overflow: hidden;
+  border: 1px solid rgba(192,57,43,0.2);
+}
+.cta-banner::before {
+  content: ''; position: absolute; top: -120px; right: -120px;
+  width: 400px; height: 400px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(192,57,43,0.2) 0%, transparent 60%);
+}
+.cta-banner-text { position: relative; z-index: 1; }
+.cta-banner h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: 10px;
+}
+.cta-banner p { color: rgba(255,255,255,0.55); font-size: 1rem; line-height: 1.7; max-width: 460px; }
+.cta-banner-btn {
+  flex-shrink: 0; position: relative; z-index: 1;
+  display: inline-flex; align-items: center; gap: 12px;
+  background: linear-gradient(135deg, var(--red-light), var(--red-dark));
+  color: #fff; font-size: 0.88rem; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 16px 32px; border-radius: 12px; text-decoration: none;
+  box-shadow: 0 8px 28px var(--red-glow);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.cta-banner-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 36px var(--red-glow); }
+
+/* ── TYPES SECTION ── */
+.types-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 60px; }
+.type-card {
+  background: var(--white); border: 1px solid var(--border-light);
+  border-radius: 18px; padding: 30px; text-align: center;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+}
+.type-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+.type-icon {
+  width: 56px; height: 56px; border-radius: 14px;
+  background: rgba(192,57,43,0.08); border: 1px solid rgba(192,57,43,0.15);
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
+}
+.type-icon i { color: var(--red); font-size: 1.25rem; }
+.type-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--ink); margin-bottom: 10px; }
+.type-desc { font-size: 0.9rem; color: var(--ink-light); line-height: 1.65; }
+
+/* ── VIDEO SECTION ── */
+.video-section {
+  background: var(--cream-dark); padding: 100px 5vw;
+  border-top: 1px solid var(--border-light);
+}
+.video-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.video-card {
+  background: var(--white); border-radius: 18px; overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+}
+.video-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+
+.video-player-wrap {
+  position: relative; background: #0a0404;
+  aspect-ratio: 16/9; overflow: hidden;
+  cursor: pointer;
+}
+.video-player-wrap video {
+  width: 100%; height: 100%; display: block; object-fit: cover;
+}
+.video-play-overlay {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(8,3,3,0.38);
+  transition: background 0.25s, opacity 0.25s;
+  opacity: 1;
+}
+.video-player-wrap.playing .video-play-overlay {
+  opacity: 0; pointer-events: none;
+}
+.video-player-wrap:hover .video-play-overlay { background: rgba(8,3,3,0.22); }
+.video-play-btn {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--red);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 28px rgba(192,57,43,0.5);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.video-play-btn i { color: #fff; font-size: 1.4rem; margin-left: 4px; }
+.video-player-wrap:hover .video-play-btn { transform: scale(1.1); box-shadow: 0 12px 36px rgba(192,57,43,0.6); }
+
+.video-controls {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 10px 16px 14px;
+  background: linear-gradient(0deg, rgba(8,3,3,0.85) 0%, transparent 100%);
+  display: flex; flex-direction: column; gap: 8px;
+  opacity: 0; transition: opacity 0.25s;
+}
+.video-player-wrap:hover .video-controls,
+.video-player-wrap.playing .video-controls { opacity: 1; }
+
+.video-progress {
+  width: 100%; height: 3px; background: rgba(255,255,255,0.2);
+  border-radius: 3px; cursor: pointer; position: relative;
+  transition: height 0.15s;
+}
+.video-player-wrap:hover .video-progress { height: 5px; }
+.video-progress-fill {
+  height: 100%; background: var(--red); border-radius: 3px;
+  width: 0%; transition: width 0.1s linear; pointer-events: none;
+}
+.video-progress-thumb {
+  position: absolute; top: 50%; right: -6px; transform: translateY(-50%);
+  width: 12px; height: 12px; border-radius: 50%; background: #fff;
+  box-shadow: 0 0 4px rgba(0,0,0,0.4); pointer-events: none;
+  opacity: 0; transition: opacity 0.15s;
+}
+.video-player-wrap:hover .video-progress-thumb { opacity: 1; }
+
+.video-controls-row {
+  display: flex; align-items: center; gap: 12px;
+}
+.video-ctrl-btn {
+  background: none; border: none; color: rgba(255,255,255,0.85);
+  font-size: 0.95rem; cursor: pointer; padding: 2px;
+  transition: color 0.2s, transform 0.15s; display: flex; align-items: center;
+}
+.video-ctrl-btn:hover { color: #fff; transform: scale(1.15); }
+.video-time {
+  font-size: 0.75rem; color: rgba(255,255,255,0.65);
+  font-family: 'Outfit', sans-serif; letter-spacing: 0.04em;
+  margin-left: auto; margin-right: 4px;
+}
+.fullscreen-btn { flex-shrink: 0; }
+
+.video-info { padding: 20px 24px; }
+.video-tag {
+  display: inline-block; font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--red); background: rgba(192,57,43,0.08);
+  padding: 4px 10px; border-radius: 100px; margin-bottom: 10px;
+}
+.video-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--ink); margin-bottom: 7px; }
+.video-desc { font-size: 0.87rem; color: var(--ink-light); line-height: 1.6; }
+
+/* ── PROMO VIDEO SECTION ── */
+.promo-video-section {
+  background: black;
+  padding: 100px 5vw;
+  position: relative;
+  overflow: hidden;
+}
+.promo-video-section::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.promo-video-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1.1fr;
+  gap: 72px; align-items: center;
+  position: relative; z-index: 1;
+}
+.promo-video-text .section-label { color: rgba(255,255,255,0.45); }
+.promo-video-text .section-label::before { background: rgba(192,57,43,0.5); }
+
+.promo-video-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 3.2vw, 2.75rem);
+  color: #fff; font-weight: 700; line-height: 1.18;
+  letter-spacing: -0.02em; margin-bottom: 20px;
+}
+.promo-video-heading em { color: var(--red); font-style: italic; }
+
+.promo-video-desc {
+  font-size: 0.98rem; color: rgba(255,255,255,0.5);
+  line-height: 1.8; margin-bottom: 32px; font-weight: 300;
+}
+
+.promo-video-bullets {
+  list-style: none; display: flex; flex-direction: column; gap: 14px;
+  margin-bottom: 40px;
+}
+.promo-video-bullets li {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 0.93rem; color: rgba(255,255,255,0.75); font-weight: 500;
+}
+.promo-video-bullets li i { color: var(--red); font-size: 0.85rem; flex-shrink: 0; }
+
+.promo-video-cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: linear-gradient(135deg, var(--red-light), var(--red-dark));
+  color: #fff; text-decoration: none;
+  font-size: 0.88rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 15px 28px; border-radius: 10px;
+  box-shadow: 0 6px 24px var(--red-glow);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.promo-video-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 32px var(--red-glow); }
+
+.promo-video-player-wrap {
+  position: relative;
+}
+.promo-video-glow {
+  position: absolute; inset: -30px; border-radius: 28px;
+  background: radial-gradient(ellipse at center, rgba(192,57,43,0.25) 0%, transparent 70%);
+  filter: blur(20px); pointer-events: none; z-index: 0;
+}
+.promo-video-player-wrap .video-player-wrap {
+  position: relative; z-index: 1;
+  border-radius: 18px; overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(192,57,43,0.25);
+  aspect-ratio: 16/9;
+}
+.promo-video-badge {
+  position: absolute; bottom: -16px; left: 50%; transform: translateX(-50%);
+  z-index: 2;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, var(--red-light), var(--red-dark));
+  color: #fff; font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 9px 20px; border-radius: 100px;
+  box-shadow: 0 6px 20px var(--red-glow);
+  white-space: nowrap;
+}
+.promo-video-badge i { font-size: 0.7rem; }
+
+@media (max-width: 900px) {
+  .promo-video-inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .promo-video-player-wrap { margin-bottom: 24px; }
+}
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none; position: fixed; z-index: 9999;
+  inset: 0; background: rgba(8,3,3,0.7);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  align-items: center; justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+.modal-overlay.open { display: flex; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal-box {
+  background: var(--white); border-radius: 22px;
+  width: 100%; max-width: 480px;
+  max-height: calc(100vh - 40px);
+  display: flex; flex-direction: column;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+  animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  margin: auto;
+}
+@keyframes slideUp { from { opacity: 0; transform: translateY(30px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+.modal-head {
+  background: linear-gradient(135deg, var(--ink-mid), #1a0808);
+  padding: 28px 32px; display: flex; align-items: flex-start; justify-content: space-between;
+  border-bottom: 1px solid rgba(192,57,43,0.2);
+  flex-shrink: 0;
+}
+.modal-head-left {}
+.modal-head-label {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(255,255,255,0.4); margin-bottom: 6px;
+}
+.modal-head-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: #fff; }
+.modal-close-btn {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.6); font-size: 1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s; flex-shrink: 0; margin-top: 2px;
+}
+.modal-close-btn:hover { background: rgba(192,57,43,0.3); color: #fff; }
+
+.modal-price-area {
+  padding: 24px 32px 20px;
+  border-bottom: 1px solid var(--border-light);
+  display: flex; align-items: baseline; gap: 8px;
+  flex-shrink: 0;
+}
+.modal-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem; font-weight: 900; color: var(--ink); line-height: 1;
+}
+.modal-price-note { font-size: 0.82rem; color: var(--ink-light); }
+
+.modal-inclusions { padding: 20px 32px; overflow-y: auto; flex: 1; }
+.modal-inclusions::-webkit-scrollbar { width: 4px; }
+.modal-inclusions::-webkit-scrollbar-track { background: transparent; }
+.modal-inclusions::-webkit-scrollbar-thumb { background: var(--red); border-radius: 4px; }
+.modal-inclusions-title {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-light); margin-bottom: 14px;
+}
+.modal-items { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.modal-items li {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 0.92rem; color: var(--ink-mid); padding: 9px 14px;
+  background: var(--cream); border-radius: 8px;
+}
+.modal-items li i { color: var(--red); font-size: 0.8rem; flex-shrink: 0; }
+
+.modal-foot { padding: 20px 32px 28px; flex-shrink: 0; border-top: 1px solid var(--border-light); }
+.modal-cta-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; background: linear-gradient(135deg, var(--red-light), var(--red-dark));
+  color: #fff; padding: 16px; border-radius: 12px; border: none;
+  font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none;
+  cursor: pointer; box-shadow: var(--shadow-red);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.modal-cta-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px var(--red-glow); }
+
+/* ── BACK TO TOP ── */
+#back-to-top {
+  position: fixed; bottom: 28px; right: 28px; z-index: 900;
+  width: 48px; height: 48px; border-radius: 12px;
+  background: var(--ink); border: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer; display: none; align-items: center; justify-content: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  transition: transform 0.25s, background 0.25s; color: #fff; font-size: 0.9rem;
+}
+#back-to-top:hover { transform: translateY(-3px); background: var(--red); }
+#back-to-top.visible { display: flex; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink); border-top: 1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.3); text-align: center;
+  padding: 32px 5vw; font-size: 0.88rem;
+}
+footer strong { color: rgba(255,255,255,0.55); }
+
+/* ── MOBILE ── */
+@media (max-width: 900px) {
+  .security-grid { grid-template-columns: repeat(2, 1fr); }
+  .inventory-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: block; }
+  .nav-cta { display: none; }
+  .nav-links.open {
+    display: flex; flex-direction: column;
+    position: absolute; top: 72px; left: 0; right: 0;
+    background: rgba(8,3,3,0.97); padding: 24px 5vw; gap: 20px;
+    border-top: 1px solid rgba(192,57,43,0.15);
+  }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .specs-wrap { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr; }
+  .inventory-grid { grid-template-columns: 1fr; }
+  .reporting-grid { grid-template-columns: 1fr; }
+  .types-grid { grid-template-columns: 1fr; }
+  .video-grid { grid-template-columns: 1fr; }
+  .security-grid { grid-template-columns: 1fr 1fr; }
+  .hero-stats { gap: 24px; }
+  .cta-banner { padding: 36px 30px; }
+}
+@media (max-width: 480px) {
+  .security-grid { grid-template-columns: 1fr; }
+  .hero-stat-divider { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a class="nav-logo" href="index.html">
+    <div class="nav-logo-mark"><i class="fas fa-cash-register"></i></div>
+    HarmonyPOS
+  </a>
+  <button class="nav-toggle" id="navToggle"><i class="fas fa-bars"></i></button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="features.html" class="active">Features</a></li>
+    <li><a href="why-us.html">Why Us</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="index.html" class="nav-home-btn"><i class="fas fa-home" style="font-size:.75rem;margin-right:6px;"></i>Home</a>
+    <a href="contact.html" class="nav-cta"><i class="fas fa-phone"></i>Get Demo</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2" style="animation: pulse2 8s 2s infinite;"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>Version 2.0.1 · Now Available</div>
+    <h1>
+      Built for <em>serious</em> retail.
+      <span class="hero-line2">Designed to scale with you.</span>
+    </h1>
+    <p class="hero-desc">Is a comprehensive Point of Sale solution designed to provide real time business monitoring, advanced inventory control, and secure transaction management. The system is built to support retail and wholesale operations while ensuring
+efficiency, accuracy, and business growth.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num"><span>4</span></div>
+        <div class="hero-stat-label">Packages</div>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><span>14</span>+</div>
+        <div class="hero-stat-label">TX Features</div>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><span>∞</span></div>
+        <div class="hero-stat-label">License</div>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><span>24</span>/7</div>
+        <div class="hero-stat-label">Support</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-mouse"><div class="scroll-dot"></div></div>
+    Scroll
+  </div>
+</section>
+
+<!-- PRICING SECTION -->
+<section class="pricing-section">
+  <div class="container">
+    <div class="pricing-header">
+      <div class="section-label">Pricing & Packages</div>
+      <h2 class="section-title">Choose the package that<br><em>fits your business</em></h2>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="pricing-card" onclick="openModal('nonBirModal')">
+        <div class="pricing-icon"><i class="fas fa-store"></i></div>
+        <div class="pricing-name">Non-BIR Accredited</div>
+        <div class="pricing-price">₱27,000</div>
+        <div class="pricing-price-sub">One-time payment · Lifetime license</div>
+        <div class="pricing-desc">Complete POS hardware package for standard retail and general business operations.</div>
+        <div class="pricing-cta">View inclusions <i class="fas fa-arrow-right"></i></div>
+      </div>
+
+      <div class="pricing-card featured" onclick="openModal('birModal')">
+        <div class="featured-badge">Top Choice</div>
+        <div class="pricing-icon"><i class="fas fa-certificate"></i></div>
+        <div class="pricing-name">BIR Accredited</div>
+        <div class="pricing-price">₱45,000</div>
+        <div class="pricing-price-sub">One-time payment · Lifetime license</div>
+        <div class="pricing-desc">Full BIR-compliant POS with advanced reporting, tax accreditation, and compliance features.</div>
+        <div class="pricing-cta">View inclusions <i class="fas fa-arrow-right"></i></div>
+      </div>
+
+      <div class="pricing-card" onclick="openModal('serverModal')">
+        <div class="pricing-icon"><i class="fas fa-server"></i></div>
+        <div class="pricing-name">Server Package</div>
+        <div class="pricing-price">₱45,000</div>
+        <div class="pricing-price-sub">One-time payment · Lifetime license</div>
+        <div class="pricing-desc">Server hardware with lifetime license — unlocks attendance, payroll, and multi-terminal support.</div>
+        <div class="pricing-cta">View inclusions <i class="fas fa-arrow-right"></i></div>
+      </div>
+
+      <div class="pricing-card" onclick="openModal('softwareModal')">
+        <div class="pricing-icon"><i class="fas fa-code"></i></div>
+        <div class="pricing-name">Software Only</div>
+        <div class="pricing-price">₱10,000</div>
+        <div class="pricing-price-sub">One-time payment · Lifetime license</div>
+        <div class="pricing-desc">Software-only license for businesses that already have their own compatible hardware.</div>
+        <div class="pricing-cta">View inclusions <i class="fas fa-arrow-right"></i></div>
+      </div>
+    </div>
+
+    <div class="payment-notice">
+      <i class="fas fa-info-circle"></i>
+      <p>
+        <strong>One-time payment only</strong> — no subscriptions, no hidden fees. 
+        <span>A ₱3,000 downpayment is required to secure your order. Downpayment is non-refundable.</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- HARDWARE SPECS -->
+<section class="section alt">
+  <div class="container">
+    <div class="section-label">What's Included</div>
+    <h2 class="section-title">Hardware & <em>software</em> overview</h2>
+
+    <div class="specs-wrap">
+      <div class="specs-card">
+        <div class="specs-card-header">
+          <div class="specs-icon"><i class="fas fa-computer"></i></div>
+          <div class="specs-card-title">Hardware (Complete Packages)</div>
+        </div>
+        <div class="specs-items">
+          <div class="specs-item"><i class="fas fa-microchip"></i> CPU Unit</div>
+          <div class="specs-item"><i class="fas fa-desktop"></i> 19-inch Monitor</div>
+          <div class="specs-item"><i class="fas fa-keyboard"></i> Brand New Keyboard & Mouse</div>
+          <div class="specs-item"><i class="fas fa-cash-register"></i> Brand New Cash Drawer</div>
+          <div class="specs-item"><i class="fas fa-print"></i> Thermal Printer & Paper</div>
+          <div class="specs-item"><i class="fas fa-barcode"></i> Barcode Scanner</div>
+        </div>
+      </div>
+
+      <div class="specs-card">
+        <div class="specs-card-header">
+          <div class="specs-icon"><i class="fas fa-shield-halved"></i></div>
+          <div class="specs-card-title">Software & Service</div>
+        </div>
+        <div class="specs-items">
+          <div class="specs-item"><i class="fas fa-infinity"></i> Lifetime License — No Renewals</div>
+          <div class="specs-item"><i class="fas fa-lock"></i> Reliable & Secure Platform</div>
+          <div class="specs-item"><i class="fas fa-bolt"></i> Real-time Updates</div>
+          <div class="specs-item"><i class="fas fa-headset"></i> 24/7 Technical Support</div>
+          <div class="specs-item"><i class="fas fa-database"></i> Database Backup & Restore</div>
+          <div class="specs-item"><i class="fas fa-file-export"></i> Excel Export Reports</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POS TYPES -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">System Types</div>
+    <h2 class="section-title">Three types of <em>POS systems</em></h2>
+    <div class="types-grid">
+      <div class="type-card">
+        <div class="type-icon"><i class="fas fa-certificate"></i></div>
+        <div class="type-title">BIR Accredited</div>
+        <div class="type-desc">Fully accredited with the Bureau of Internal Revenue for official tax compliance, proper receipts, and government reporting requirements.</div>
+      </div>
+      <div class="type-card">
+        <div class="type-icon"><i class="fas fa-store"></i></div>
+        <div class="type-title">Non-BIR Accredited</div>
+        <div class="type-desc">Standard POS for general retail operations. All core features included — ideal for businesses not yet requiring BIR accreditation.</div>
+      </div>
+      <div class="type-card">
+        <div class="type-icon"><i class="fas fa-code"></i></div>
+        <div class="type-title">Harmony POS Software</div>
+        <div class="type-desc">Software-only license. Install HarmonyPOS on your existing hardware. Full feature set, lifetime license, same great support.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CORE FEATURES -->
+<section class="section alt">
+  <div class="container">
+    <div class="section-label">Core Capabilities</div>
+    <h2 class="section-title">Everything you need to <em>run the floor</em></h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+        <div class="feature-title">Real-Time Monitoring</div>
+        <ul class="feature-list">
+          <li>Live sales tracking across all terminals simultaneously</li>
+          <li>Real-time inventory monitoring with instant stock updates</li>
+        </ul>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-boxes-stacked"></i></div>
+        <div class="feature-title">Inventory Management</div>
+        <ul class="feature-list">
+          <li>Add and remove products with ease</li>
+          <li>Bulk stock in / out operations for fast updates</li>
+          <li>Update stocks and prices on the fly</li>
+          <li>Search by SKU or item name instantly</li>
+          <li>Flexible open inventory workflows</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INVENTORY ANALYSIS -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Inventory Intelligence</div>
+    <h2 class="section-title">Analysis & <em>monitoring</em> tools</h2>
+    <div class="inventory-grid">
+      <div class="inv-card">
+        <div class="inv-card-top">
+          <div class="inv-icon"><i class="fas fa-arrow-trend-up"></i></div>
+          <div class="inv-tag">Velocity</div>
+        </div>
+        <div class="inv-title">Sales Velocity</div>
+        <ul class="inv-list">
+          <li>Fast-moving items report</li>
+          <li>Slow-moving items detection</li>
+          <li>Days-of-stock monitor</li>
+        </ul>
+      </div>
+      <div class="inv-card">
+        <div class="inv-card-top">
+          <div class="inv-icon"><i class="fas fa-triangle-exclamation"></i></div>
+          <div class="inv-tag">Alerts</div>
+        </div>
+        <div class="inv-title">Alerts & Control</div>
+        <ul class="inv-list">
+          <li>Minimum stock alerts</li>
+          <li>Reordering filter</li>
+          <li>Expired item detection & deletion</li>
+          <li>Check total value of store - INVENTORY</li>
+        </ul>
+      </div>
+      <div class="inv-card">
+        <div class="inv-card-top">
+          <div class="inv-icon"><i class="fas fa-file-excel"></i></div>
+          <div class="inv-tag">Data</div>
+        </div>
+        <div class="inv-title">Data & Exports</div>
+        <ul class="inv-list">
+          <li>Export to Excel reports</li>
+          <li>Database backup & restore</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSACTIONS -->
+<section class="tx-section">
+  <div class="container">
+    <div class="section-label">Transaction Features</div>
+    <h2 class="section-title">Everything a <em>cashier needs</em></h2>
+    <div class="tx-grid">
+      <div class="tx-item"><i class="fas fa-ban"></i><span>Cancel Transactions</span></div>
+      <div class="tx-item"><i class="fas fa-pause-circle"></i><span>Hold Transactions</span></div>
+      <div class="tx-item"><i class="fas fa-eraser"></i><span>Void Items</span></div>
+      <div class="tx-item"><i class="fas fa-tag"></i><span>Apply Discounts</span></div>
+      <div class="tx-item"><i class="fas fa-pen"></i><span>Manual Price Adjustment</span></div>
+      <div class="tx-item"><i class="fas fa-plus-minus"></i><span>Change Quantity</span></div>
+      <div class="tx-item"><i class="fas fa-magnifying-glass"></i><span>Item or Product Search</span></div>
+      <div class="tx-item"><i class="fas fa-circle-info"></i><span>Price Inquiry</span></div>
+      <div class="tx-item"><i class="fas fa-user-plus"></i><span>New Customer Registration</span></div>
+      <div class="tx-item"><i class="fas fa-receipt"></i><span>Reprint Receipt</span></div>
+      <div class="tx-item"><i class="fas fa-money-bill-wave"></i><span>Cash Tender Processing</span></div>
+      <div class="tx-item"><i class="fas fa-store"></i><span>Wholesale & Retail Mode</span></div>
+      <div class="tx-item"><i class="fas fa-barcode"></i><span>Create Barcode</span></div>
+      <div class="tx-item"><i class="fas fa-star"></i><span>Redeem Loyalty Points</span></div>
+      <div class="tx-item"><i class="fas fa-mobile-screen"></i><span>GCash Integration</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section class="section dark">
+  <div class="container">
+    <div class="section-label" style="color: rgba(255,255,255,0.5);">
+      <span style="display:inline-flex;align-items:center;gap:10px;">
+        <span style="display:block;width:24px;height:1.5px;background:rgba(192,57,43,0.5);"></span>
+        Security
+      </span>
+    </div>
+    <h2 class="section-title">Secure at every <em style="color:var(--red)">layer</em></h2>
+    <div class="security-grid">
+      <div class="sec-card">
+        <div class="sec-card-icon"><i class="fas fa-lock"></i></div>
+        <span>Secure Login Authentication</span>
+      </div>
+      <div class="sec-card">
+        <div class="sec-card-icon"><i class="fas fa-shield-halved"></i></div>
+        <span>Back-End Access Control</span>
+      </div>
+      <div class="sec-card">
+        <div class="sec-card-icon"><i class="fas fa-user-shield"></i></div>
+        <span>Cancel & Void Authorization</span>
+      </div>
+      <div class="sec-card">
+        <div class="sec-card-icon"><i class="fas fa-eye-slash"></i></div>
+        <span>Sales & Inventory Access Security</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REPORTING -->
+<section class="section alt">
+  <div class="container">
+    <div class="section-label">Advanced Features</div>
+    <h2 class="section-title">Reporting & <em>advanced modules</em></h2>
+    <div class="reporting-grid">
+      <div class="report-card">
+        <div class="report-icon"><i class="fas fa-gears"></i></div>
+        <div class="report-title">Advanced Modules</div>
+        <ul class="report-list">
+          <li>
+            <i class="fas fa-circle-check"></i>
+            Attendance Monitoring
+            <span class="addon-tag required">Server Required</span>
+          </li>
+          <li>
+            <i class="fas fa-circle-check"></i>
+            Payroll Management
+            <span class="addon-tag required">Server Required</span>
+          </li>
+          <li>
+            <i class="fas fa-circle-check"></i>
+            Loyalty Card System
+            <span class="addon-tag addon">Add-On</span>
+          </li>
+        </ul>
+      </div>
+      <div class="report-card">
+        <div class="report-icon"><i class="fas fa-chart-bar"></i></div>
+        <div class="report-title">Reporting Capabilities</div>
+        <ul class="report-list">
+          <li><i class="fas fa-circle-check"></i> Export to Excel</li>
+          <li><i class="fas fa-circle-check"></i> X & Z Reading Reports</li>
+          <li><i class="fas fa-circle-check"></i> Shifting Reports</li>
+          <li><i class="fas fa-circle-check"></i> Additional Custom Report</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WE ALSO OFFER -->
+<section class="section alt">
+  <div class="container">
+    <div class="section-label">What We Offer</div>
+    <h2 class="section-title">Harmony Hardware POS Solutions Inc. can <em>provide the following</em></h2>
+
+    <div class="types-grid" style="grid-template-columns: repeat(4, 1fr);">
+      <div class="type-card">
+        <div class="type-icon"><i class="fas fa-cash-register"></i></div>
+        <div class="type-title">POS System</div>
+        <div class="type-desc">Full-featured point of sale for retail, wholesale, and general business operations.</div>
+      </div>
+      <div class="type-card">
+        <div class="type-icon"><i class="fas fa-warehouse"></i></div>
+        <div class="type-title">Warehouse Inventory System</div>
+        <div class="type-desc">Track stock movements, manage multiple warehouses, and streamline supply operations.</div>
+      </div>
+      <div class="type-card">
+        <div class="type-icon"><i class="fas fa-square-parking"></i></div>
+        <div class="type-title">Parking System</div>
+        <div class="type-desc">Automate entry, exit, fee collection, and slot monitoring for parking facilities.</div>
+      </div>
+      <div class="type-card">
+        <div class="type-icon"><i class="fas fa-hotel"></i></div>
+        <div class="type-title">Hotel Management System</div>
+        <div class="type-desc">Manage reservations, check-ins, housekeeping, and billing all in one platform.</div>
+      </div>
+      <div class="type-card">
+        <div class="type-icon"><i class="fas fa-money-check-dollar"></i></div>
+        <div class="type-title">Payroll System</div>
+        <div class="type-desc">Automate salary computation, deductions, government contributions, and payslip generation.</div>
+      </div>
+      <div class="type-card">
+        <div class="type-icon"><i class="fas fa-pills"></i></div>
+        <div class="type-title">Pharmacy POS System</div>
+        <div class="type-desc">Built for drugstores — with prescription tracking, expiry monitoring, and drug inventory.</div>
+      </div>
+      <div class="type-card">
+        <div class="type-icon"><i class="fas fa-motorcycle"></i></div>
+        <div class="type-title">Motorshop POS System</div>
+        <div class="type-desc">Manage parts inventory, job orders, mechanic assignments, and customer transactions.</div>
+      </div>
+      <div class="type-card">
+        <div class="type-icon"><i class="fas fa-shirt"></i></div>
+        <div class="type-title">Laundry POS System</div>
+        <div class="type-desc">Handle customer orders, garment tracking, pickup schedules, and payment processing.</div>
+      </div>
+      <div class="type-card">
+        <div class="type-icon"><i class="fas fa-clock"></i></div>
+        <div class="type-title">Attendance Management System</div>
+        <div class="type-desc">Monitor employee time-in and time-out with automated logs and attendance reports.</div>
+      </div>
+      <div class="type-card">
+        <div class="type-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+        <div class="type-title">Credit and Billing System</div>
+        <div class="type-desc">Manage customer credit accounts, outstanding balances, and automated billing cycles.</div>
+      </div>
+      <div class="type-card">
+        <div class="type-icon"><i class="fas fa-utensils"></i></div>
+        <div class="type-title">Restaurant Management</div>
+        <div class="type-desc">Table management, order routing, kitchen display integration, and restaurant billing.</div>
+      </div>
+      <div class="type-card">
+        <div class="type-icon"><i class="fas fa-door-open"></i></div>
+        <div class="type-title">Access Control</div>
+        <div class="type-desc">Secure entry management with ID-based or biometric access for offices and facilities.</div>
+      </div>
+      <div class="type-card" style="grid-column: span 4;">
+        <div class="type-icon" style="margin: 0 auto 20px;"><i class="fas fa-screwdriver-wrench"></i></div>
+        <div class="type-title">Management System (Customized)</div>
+        <div class="type-desc">Have a unique business needs? We build fully custom management systems tailored to your exact workflows, industry requirements, and operational goals.</div>
+      </div>  
+    </div>
+  </div>
+</section>
+
+<!-- PROMOTIONAL VIDEO (Public) -->
+<section class="promo-video-section">
+  <div class="promo-video-inner">
+
+    <!-- LEFT: Text content -->
+    <div class="promo-video-text">
+      <div class="section-label">See It In Action</div>
+      <h2 class="promo-video-heading">Experience HarmonyPOS <em>in action</em></h2>
+      <p class="promo-video-desc">Discover how HarmonyPOS simplifies your daily operations - from manual listing - fast checkout to real-time iventory and sales monitoring ALL IN ONE SMART AND POWERFUL SYSTEM</p>
+
+      <ul class="promo-video-bullets">
+        <li><i class="fas fa-circle-check"></i> Ready to use hardware set</li>
+        <li><i class="fas fa-circle-check"></i>Lifetime system license</li>
+        <li><i class="fas fa-circle-check"></i> Fast Installation with after-support</li>
+        <li><i class="fas fa-circle-check"></i> NO MONTHLY subscription</li>
+         <li><i class="fas fa-circle-check"></i>BIR ACCREDITED</li>
+      </ul>
+
+      <a href="contact.html" class="promo-video-cta">
+      <i class="fas fa-arrow-right"></i> Get your free demo today
+      </a>
+    </div>
+
+    <!-- RIGHT: Video player -->
+    <div class="promo-video-player-wrap">
+      <div class="promo-video-glow"></div>
+      <div class="video-player-wrap" data-player="promo1">
+        <video preload="metadata" src="video/PROMOTIONAL VIDEO.mov"></video>
+        <div class="video-play-overlay">
+          <div class="video-play-btn"><i class="fas fa-play"></i></div>
+        </div>
+        <div class="video-controls">
+          <div class="video-progress">
+            <div class="video-progress-fill"></div>
+            <div class="video-progress-thumb"></div>
+          </div>
+          <div class="video-controls-row">
+            <button class="video-ctrl-btn play-pause-btn"><i class="fas fa-play"></i></button>
+            <span class="video-time">0:00 / 0:00</span>
+            <button class="video-ctrl-btn fullscreen-btn"><i class="fas fa-expand"></i></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="section alt">
+  <div class="container">
+    <div class="cta-banner">
+      <div class="cta-banner-text">
+        <h3>Need something tailored?</h3>
+        <p>We offer fully customized system development built around your exact business requirements, workflows, and industry needs.</p>
+      </div>
+      <a href="contact.html" class="cta-banner-btn"><i class="fas fa-arrow-right"></i> Talk to Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>Harmony Hardware and POS Solutions Inc.</strong><br>
+  © 2019 · Your POS Partner in Business
+</footer>
+
+<button id="back-to-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="birModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-head-left">
+        <div class="modal-head-label">BIR Accredited Package</div>
+        <div class="modal-head-title">Complete POS Package</div>
+      </div>
+      <button class="modal-close-btn" onclick="closeModal('birModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-price-area">
+      <div class="modal-price">₱45,000</div>
+      <div class="modal-price-note">One-time · Lifetime License</div>
+    </div>
+    <div class="modal-inclusions">
+      <div class="modal-inclusions-title">What's Included</div>
+      <ul class="modal-items">
+        <li><i class="fas fa-check"></i> CPU Unit</li>
+        <li><i class="fas fa-check"></i> 19" Monitor</li>
+        <li><i class="fas fa-check"></i> Keyboard & Mouse</li>
+        <li><i class="fas fa-check"></i> Cash Drawer</li>
+        <li><i class="fas fa-check"></i> Thermal Printer</li>
+        <li><i class="fas fa-check"></i> Barcode Scanner</li>
+        <li><i class="fas fa-check"></i> Thermal Paper</li>
+        <li><i class="fas fa-check"></i> POS System (Lifetime License)</li>
+        <li><i class="fas fa-check"></i> BIR Accreditation</li>
+      </ul>
+    </div>
+    <div class="modal-foot">
+      <a href="contact.html" class="modal-cta-btn"><i class="fas fa-phone"></i> CALL US NOW!!!</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="nonBirModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-head-left">
+        <div class="modal-head-label">Non-BIR Package</div>
+        <div class="modal-head-title">Complete POS Package</div>
+      </div>
+      <button class="modal-close-btn" onclick="closeModal('nonBirModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-price-area">
+      <div class="modal-price">₱27,000</div>
+      <div class="modal-price-note">One-time · Lifetime License</div>
+    </div>
+    <div class="modal-inclusions">
+      <div class="modal-inclusions-title">What's Included</div>
+      <ul class="modal-items">
+        <li><i class="fas fa-check"></i> CPU Unit</li>
+        <li><i class="fas fa-check"></i> 19" Monitor</li>
+        <li><i class="fas fa-check"></i> Keyboard & Mouse</li>
+        <li><i class="fas fa-check"></i> Cash Drawer</li>
+        <li><i class="fas fa-check"></i> Thermal Printer</li>
+        <li><i class="fas fa-check"></i> Barcode Scanner</li>
+        <li><i class="fas fa-check"></i> Thermal Paper</li>
+        <li><i class="fas fa-check"></i> POS System (Lifetime License)</li>
+      </ul>
+    </div>
+    <div class="modal-foot">
+      <a href="contact.html" class="modal-cta-btn"><i class="fas fa-phone"></i> CALL US NOW!!!</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="serverModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-head-left">
+        <div class="modal-head-label">Server Package</div>
+        <div class="modal-head-title">Advanced Server</div>
+      </div>
+      <button class="modal-close-btn" onclick="closeModal('serverModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-price-area">
+      <div class="modal-price">₱45,000</div>
+      <div class="modal-price-note">One-time · Lifetime License</div>
+    </div>
+    <div class="modal-inclusions">
+      <div class="modal-inclusions-title">What's Included</div>
+      <ul class="modal-items">
+        <li><i class="fas fa-check"></i> CPU Unit</li>
+        <li><i class="fas fa-check"></i> 19" Monitor</li>
+        <li><i class="fas fa-check"></i> Keyboard & Mouse</li>
+        <li><i class="fas fa-check"></i> Server System (Lifetime License)</li>
+        <li><i class="fas fa-check"></i> Payroll Module Unlocked</li>
+        <li><i class="fas fa-check"></i> Attendance Monitoring Unlocked</li>
+      </ul>
+    </div>
+    <div class="modal-foot">
+      <a href="contact.html" class="modal-cta-btn"><i class="fas fa-phone"></i> CALL US NOW!!!</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="softwareModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-head-left">
+        <div class="modal-head-label">Software Only</div>
+        <div class="modal-head-title">Harmony POS License</div>
+      </div>
+      <button class="modal-close-btn" onclick="closeModal('softwareModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-price-area">
+      <div class="modal-price">₱10,000</div>
+      <div class="modal-price-note">One-time · Lifetime License</div>
+    </div>
+    <div class="modal-inclusions">
+      <div class="modal-inclusions-title">What's Included</div>
+      <ul class="modal-items">
+        <li><i class="fas fa-check"></i> Full HarmonyPOS Software only</li>
+      </ul>
+    </div>
+    <div class="modal-foot">
+      <a href="contact.html" class="modal-cta-btn"><i class="fas fa-phone"></i> CALL US NOW!!!</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── Nav scroll ──
+  const nav = document.getElementById('mainNav');
+  const applyScroll = () => nav.classList.toggle('scrolled', window.scrollY > 60);
+  applyScroll();
+  window.addEventListener('scroll', applyScroll);
+
+  // ── Nav toggle ──
+  document.getElementById('navToggle').onclick = () =>
+    document.getElementById('navLinks').classList.toggle('open');
+
+  // ── Back to top ──
+  const btt = document.getElementById('back-to-top');
+  window.addEventListener('scroll', () => btt.classList.toggle('visible', window.scrollY > 200));
+  btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  // ── Modals ──
+  function openModal(id) {
+    document.getElementById(id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeModal(overlay.id);
+    });
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.open').forEach(m => closeModal(m.id));
+    }
+  });
+
+  // ── Scroll-triggered reveal ──
+  const reveals = document.querySelectorAll('.pricing-card, .specs-card, .feature-card, .inv-card, .sec-card, .report-card, .type-card, .video-card, .tx-item');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.style.transitionDelay = `${(entry.target.dataset.delay || 0)}ms`;
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  reveals.forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(22px)';
+    el.style.transition = 'opacity 0.55s ease, transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)';
+    el.dataset.delay = (i % 4) * 70;
+    observer.observe(el);
+  });
+
+  // ── Custom Video Players ──
+  function formatTime(s) {
+    if (isNaN(s)) return '0:00';
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return `${m}:${sec.toString().padStart(2, '0')}`;
+  }
+
+  document.querySelectorAll('.video-player-wrap').forEach(wrap => {
+    const video      = wrap.querySelector('video');
+    const overlay    = wrap.querySelector('.video-play-overlay');
+    const overlayBtn = wrap.querySelector('.video-play-btn i');
+    const ppBtn      = wrap.querySelector('.play-pause-btn i');
+    const progress   = wrap.querySelector('.video-progress');
+    const fill       = wrap.querySelector('.video-progress-fill');
+    const thumb      = wrap.querySelector('.video-progress-thumb');
+    const timeLabel  = wrap.querySelector('.video-time');
+
+    function setPlaying(playing) {
+      if (playing) {
+        document.querySelectorAll('.video-player-wrap.playing').forEach(other => {
+          if (other !== wrap) {
+            other.querySelector('video').pause();
+            other.classList.remove('playing');
+            other.querySelector('.play-pause-btn i').className = 'fas fa-play';
+            other.querySelector('.video-play-btn i').className = 'fas fa-play';
+          }
+        });
+        video.play();
+        wrap.classList.add('playing');
+        ppBtn.className = 'fas fa-pause';
+        overlayBtn.className = 'fas fa-pause';
+      } else {
+        video.pause();
+        wrap.classList.remove('playing');
+        ppBtn.className = 'fas fa-play';
+        overlayBtn.className = 'fas fa-play';
+      }
+    }
+
+    overlay.addEventListener('click', () => setPlaying(!wrap.classList.contains('playing')));
+    wrap.querySelector('.play-pause-btn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      setPlaying(!wrap.classList.contains('playing'));
+    });
+
+    video.addEventListener('timeupdate', () => {
+      if (!video.duration) return;
+      const pct = (video.currentTime / video.duration) * 100;
+      fill.style.width = pct + '%';
+      thumb.style.left = `calc(${pct}% - 6px)`;
+      timeLabel.textContent = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
+    });
+
+    video.addEventListener('loadedmetadata', () => {
+      timeLabel.textContent = `0:00 / ${formatTime(video.duration)}`;
+    });
+
+    progress.addEventListener('click', (e) => {
+      const rect = progress.getBoundingClientRect();
+      const pct = (e.clientX - rect.left) / rect.width;
+      video.currentTime = pct * video.duration;
+    });
+
+    let dragging = false;
+    progress.addEventListener('mousedown', () => dragging = true);
+    document.addEventListener('mousemove', (e) => {
+      if (!dragging) return;
+      const rect = progress.getBoundingClientRect();
+      const pct = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
+      video.currentTime = pct * video.duration;
+    });
+    document.addEventListener('mouseup', () => dragging = false);
+
+    video.addEventListener('ended', () => {
+      wrap.classList.remove('playing');
+      ppBtn.className = 'fas fa-play';
+      overlayBtn.className = 'fas fa-play';
+      video.currentTime = 0;
+    });
+
+    const fsBtn = wrap.querySelector('.fullscreen-btn i');
+    wrap.querySelector('.fullscreen-btn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!document.fullscreenElement) {
+        (wrap.requestFullscreen || wrap.webkitRequestFullscreen || wrap.mozRequestFullScreen).call(wrap);
+      } else {
+        (document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen).call(document);
+      }
+    });
+    document.addEventListener('fullscreenchange', () => {
+      const isFs = !!document.fullscreenElement;
+      if (document.fullscreenElement === wrap || !isFs) {
+        fsBtn.className = isFs ? 'fas fa-compress' : 'fas fa-expand';
+      }
+    });
+  });
+</script>
+</body>
+</html>

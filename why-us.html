@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Choose Us | HarmonyPOS</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+  --red: #c0392b;
+  --red-dark: #96241b;
+  --red-light: #e74c3c;
+  --red-glow: rgba(192,57,43,0.25);
+  --ink: #0f0a0a;
+  --ink-mid: #2a1a1a;
+  --ink-light: #5a3d3d;
+  --cream: #fdf6f0;
+  --cream-dark: #f5ede4;
+  --white: #ffffff;
+  --border-light: rgba(0,0,0,0.07);
+  --shadow-sm: 0 2px 12px rgba(15,10,10,0.08);
+  --shadow-md: 0 8px 32px rgba(15,10,10,0.12);
+  --shadow-lg: 0 20px 60px rgba(15,10,10,0.18);
+  --shadow-red: 0 8px 32px rgba(192,57,43,0.25);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;line-height:1.6;}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--cream-dark);}
+::-webkit-scrollbar-thumb{background:var(--red);border-radius:10px;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");opacity:0.5;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;height:72px;background:rgba(8,3,3,0.92);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid rgba(192,57,43,0.15);}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:700;color:#fff;text-decoration:none;letter-spacing:-0.02em;display:flex;align-items:center;gap:10px;}
+.nav-logo-mark{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,var(--red),var(--red-dark));display:flex;align-items:center;justify-content:center;font-size:1rem;color:#fff;box-shadow:0 4px 12px var(--red-glow);}
+.nav-logo span{color:var(--red);}
+.nav-links{display:flex;align-items:center;gap:36px;list-style:none;position:absolute;left:50%;transform:translateX(-50%);overflow:visible;}
+.nav-links li{overflow:visible;}
+.nav-links a{font-size:0.85rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;position:relative;padding-bottom:6px;}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1.5px;background:var(--red);transform:scaleX(0);transform-origin:center;transition:transform 0.25s;}
+.nav-links a:hover{color:#fff;}
+.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1);}
+.nav-links a.active{color:#fff;}
+.nav-actions{display:flex;align-items:center;gap:10px;}
+.nav-home-btn{font-size:0.82rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:rgba(255,255,255,0.65);text-decoration:none;padding:9px 18px;border-radius:8px;border:1px solid rgba(255,255,255,0.18);transition:all 0.25s;}
+.nav-home-btn:hover{background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.3);}
+.nav-cta{font-size:0.82rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;background:linear-gradient(135deg,var(--red-light),var(--red-dark));color:#fff;text-decoration:none;padding:10px 22px;border-radius:8px;box-shadow:0 4px 16px var(--red-glow);transition:all 0.25s;display:flex;align-items:center;gap:8px;}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px var(--red-glow);}
+.nav-toggle{display:none;background:none;border:none;color:#fff;font-size:1.2rem;cursor:pointer;}
+
+/* HERO */
+.hero{position:relative;min-height:520px;display:flex;align-items:center;justify-content:center;text-align:center;padding:150px 5vw 110px;background:var(--ink);overflow:hidden;}
+.hero-bg-grid{position:absolute;inset:0;opacity:0.035;background-image:linear-gradient(rgba(255,255,255,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.5) 1px,transparent 1px);background-size:60px 60px;}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
+.hero-orb-1{width:600px;height:600px;bottom:-300px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(192,57,43,0.38) 0%,transparent 60%);animation:orbPulse 7s ease-in-out infinite;}
+.hero-orb-2{width:350px;height:350px;top:-100px;right:-100px;background:radial-gradient(circle,rgba(212,168,67,0.1) 0%,transparent 60%);animation:orbPulse 9s ease-in-out 3s infinite;}
+@keyframes orbPulse{0%,100%{opacity:1;}50%{opacity:0.6;}}
+.hero-content{position:relative;z-index:1;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(192,57,43,0.15);border:1px solid rgba(192,57,43,0.35);color:#f5c5bf;font-size:0.78rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:7px 16px;border-radius:100px;margin-bottom:28px;opacity:0;animation:fadeUp 0.6s 0.2s ease forwards;}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink 2s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5.5vw,4.5rem);color:#fff;line-height:1.1;font-weight:900;opacity:0;animation:fadeUp 0.7s 0.35s ease forwards;letter-spacing:-0.02em;}
+.hero h1 em{color:var(--red);font-style:italic;}
+.hero-desc{max-width:540px;margin:24px auto 0;color:rgba(255,255,255,0.5);font-size:1.05rem;line-height:1.85;font-weight:300;opacity:0;animation:fadeUp 0.7s 0.5s ease forwards;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* SECTIONS */
+.section{padding:100px 5vw;position:relative;}
+.section.alt{background:var(--white);}
+.container{max-width:1100px;margin:0 auto;}
+.section-label{display:inline-flex;align-items:center;gap:10px;font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--red);margin-bottom:14px;}
+.section-label::before{content:'';display:block;width:24px;height:1.5px;background:var(--red);}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,3.5vw,2.8rem);color:var(--ink);margin-bottom:56px;line-height:1.18;font-weight:700;letter-spacing:-0.02em;}
+.section-title em{color:var(--red);font-style:italic;}
+
+/* WHY CARDS */
+.why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+.why-card{background:var(--white);border:1px solid var(--border-light);border-radius:18px;padding:40px 36px;position:relative;overflow:hidden;transition:transform 0.3s cubic-bezier(0.16,1,0.3,1),box-shadow 0.3s;}
+.section.alt .why-card{background:var(--cream);}
+.why-card::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--red),var(--red-dark));transform:scaleY(0);transform-origin:top;transition:transform 0.3s;}
+.why-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md);}
+.why-card:hover::after{transform:scaleY(1);}
+.why-card-num{position:absolute;top:24px;right:28px;font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:900;color:rgba(192,57,43,0.06);line-height:1;}
+.why-icon{width:52px;height:52px;border-radius:13px;background:rgba(192,57,43,0.08);border:1px solid rgba(192,57,43,0.15);display:flex;align-items:center;justify-content:center;margin-bottom:22px;}
+.why-icon i{color:var(--red);font-size:1.2rem;}
+.why-card h4{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--ink);margin-bottom:12px;}
+.why-card p{color:var(--ink-light);font-size:0.95rem;line-height:1.8;}
+
+/* COMPARISON TABLE */
+.compare-wrap{overflow-x:auto;border-radius:16px;border:1px solid var(--border-light);box-shadow:var(--shadow-sm);}
+.compare-table{width:100%;border-collapse:collapse;font-size:0.92rem;}
+.compare-table th{padding:18px 24px;text-align:left;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;}
+.compare-table th:first-child{background:var(--cream-dark);color:var(--ink-light);}
+.compare-table th.harmony-col{background:linear-gradient(135deg,var(--red),var(--red-dark));color:#fff;text-align:center;}
+.compare-table th.other-col{background:var(--ink-mid);color:rgba(255,255,255,0.5);text-align:center;}
+.compare-table td{padding:16px 24px;border-bottom:1px solid var(--border-light);vertical-align:middle;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td:first-child{font-weight:500;color:var(--ink-mid);background:var(--cream-dark);}
+.compare-table td.harmony-val{text-align:center;color:var(--red);font-weight:600;}
+.compare-table td.other-val{text-align:center;color:var(--ink-light);}
+.compare-table tr:hover td{background:rgba(192,57,43,0.02);}
+.compare-table tr:hover td:first-child{background:rgba(192,57,43,0.05);}
+.check-icon{color:var(--red);}
+.x-icon{color:rgba(90,61,61,0.4);}
+
+/* TAGLINE */
+.tagline-strip{background:var(--ink);padding:80px 5vw;text-align:center;position:relative;overflow:hidden;}
+.tagline-strip::before{content:'';position:absolute;bottom:-100px;left:50%;transform:translateX(-50%);width:700px;height:350px;background:radial-gradient(ellipse,rgba(192,57,43,0.25) 0%,transparent 70%);pointer-events:none;}
+.tagline-strip h3{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:700;color:#fff;margin-bottom:16px;position:relative;}
+.tagline-strip h3 em{color:var(--red);font-style:italic;}
+.tagline-strip p{color:rgba(255,255,255,0.5);font-size:1.02rem;max-width:500px;margin:0 auto;line-height:1.85;font-weight:300;position:relative;}
+
+/* CTA */
+.cta-section{background:linear-gradient(135deg,var(--red-dark),var(--red));padding:100px 5vw;text-align:center;position:relative;overflow:hidden;}
+.cta-section::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");opacity:0.6;pointer-events:none;}
+.cta-inner{position:relative;z-index:1;}
+.cta-section h2{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,4.5vw,3.2rem);color:#fff;font-weight:900;margin-bottom:16px;letter-spacing:-0.02em;}
+.cta-section p{color:rgba(255,255,255,0.72);margin:0 auto 36px;max-width:460px;font-size:1.05rem;line-height:1.82;}
+.cta-btn{display:inline-flex;align-items:center;gap:12px;background:#fff;color:var(--red-dark);font-size:0.92rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:18px 38px;border-radius:12px;text-decoration:none;box-shadow:0 10px 32px rgba(0,0,0,0.2);transition:all 0.25s;}
+.cta-btn:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(0,0,0,0.25);}
+
+/* FOOTER */
+footer{background:var(--ink);border-top:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.3);text-align:center;padding:32px 5vw;font-size:0.88rem;}
+footer strong{color:rgba(255,255,255,0.55);}
+
+/* BACK TO TOP */
+#back-to-top{position:fixed;bottom:28px;right:28px;z-index:900;width:48px;height:48px;border-radius:12px;background:var(--ink);border:1px solid rgba(255,255,255,0.1);cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,0.3);transition:all 0.25s;color:#fff;font-size:0.9rem;}
+#back-to-top:hover{transform:translateY(-3px);background:var(--red);}
+#back-to-top.visible{display:flex;}
+
+@media(max-width:768px){
+  .nav-links{display:none;}
+  .nav-toggle{display:block;}
+  .nav-cta{display:none;}
+  .nav-links.open{display:flex;flex-direction:column;position:absolute;top:72px;left:0;right:0;background:rgba(8,3,3,0.97);padding:24px 5vw;gap:20px;border-top:1px solid rgba(192,57,43,0.15);}
+  .why-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<nav id="mainNav">
+  <a class="nav-logo" href="index.html">
+    <div class="nav-logo-mark"><i class="fas fa-cash-register"></i></div>
+    HarmonyPOS</span>
+  </a>
+  <button class="nav-toggle" id="navToggle"><i class="fas fa-bars"></i></button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="features.html">Features</a></li>
+    <li><a href="why-us.html" class="active">Why Us</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="index.html" class="nav-home-btn"><i class="fas fa-home" style="font-size:.75rem;margin-right:6px;"></i>Home</a>
+    <a href="contact.html" class="nav-cta"><i class="fas fa-phone"></i>Get Demo</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>Our Advantage</div>
+    <h1>Why Choose <em>HarmonyPOS</em>?</h1>
+    <p class="hero-desc">Your long-term technology partner in business growth — built for Filipino businesses, designed to scale from day one.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-label">Differentiators</div>
+    <h2 class="section-title">What makes us <em>different</em></h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-card-num">01</div>
+        <div class="why-icon"><i class="fas fa-box-open"></i></div>
+        <h4>Complete Hardware + Software Solution</h4>
+        <p>We provide ready-to-use POS packages including hardware, software, and installation support — no hidden costs, no assembly required, no surprises.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-card-num">02</div>
+        <div class="why-icon"><i class="fas fa-infinity"></i></div>
+        <h4>Lifetime License, No Monthly Fees</h4>
+        <p>Unlike subscription-based systems that drain your budget monthly, we offer lifetime licensing for long-term savings and total peace of mind.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-card-num">03</div>
+        <div class="why-icon"><i class="fas fa-screwdriver-wrench"></i></div>
+        <h4>Customized System Development</h4>
+        <p>We tailor solutions according to your exact business operations, ensuring maximum efficiency, flexibility, and scalability as you grow.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-card-num">04</div>
+        <div class="why-icon"><i class="fas fa-headset"></i></div>
+        <h4>Reliable After-Sales Support</h4>
+        <p>Our dedicated support team ensures continuous assistance, system updates, and technical reliability long after installation — we don't disappear after the sale.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container">
+    <div class="section-label">Comparison</div>
+    <h2 class="section-title">HarmonyPOS vs. <em>others</em></h2>
+    <div class="compare-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th class="harmony-col"><i class="fas fa-check-circle" style="margin-right:8px;"></i>HarmonyPOS</th>
+            <th class="other-col">Others</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Lifetime License</td>
+            <td class="harmony-val"><i class="fas fa-check check-icon"></i> Included</td>
+            <td class="other-val"><i class="fas fa-times x-icon"></i> Monthly/Annual</td>
+          </tr>
+          <tr>
+            <td>Complete Hardware package</td>
+            <td class="harmony-val"><i class="fas fa-check check-icon"></i> Ready to Use</td>
+            <td class="other-val"><i class="fas fa-minus x-icon"></i> Software Only</td>
+          </tr>
+          <tr>
+            <td>BIR Accreditation Available</td>
+            <td class="harmony-val"><i class="fas fa-check check-icon"></i> Yes</td>
+            <td class="other-val"><i class="fas fa-minus x-icon"></i> Varies</td>
+          </tr>
+          <tr>
+            <td>Custom Development</td>
+            <td class="harmony-val"><i class="fas fa-check check-icon"></i> Tailored for You</td>
+            <td class="other-val"><i class="fas fa-times x-icon"></i> Fixed Features</td>
+          </tr>
+          <tr>
+            <td>24/7 After-Sales Support</td>
+            <td class="harmony-val"><i class="fas fa-check check-icon"></i> Dedicated Team</td>
+            <td class="other-val"><i class="fas fa-minus x-icon"></i> Limited</td>
+          </tr>
+          <tr>
+            <td>GCash Integration</td>
+            <td class="harmony-val"><i class="fas fa-check check-icon"></i> Built-in</td>
+            <td class="other-val"><i class="fas fa-times x-icon"></i> Add-On Cost</td>
+          </tr>
+          <tr>
+            <td>Free Demo</td>
+            <td class="harmony-val"><i class="fas fa-check check-icon"></i> Yes</td>
+            <td class="other-val"><i class="fas fa-minus x-icon"></i> Varies</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="tagline-strip">
+  <h3>Built for <em>Filipino Businesses.</em><br>Designed for Growth.</h3>
+  <p>From retail to wholesale operations, HarmonyPOS delivers reliability, scalability, and innovation at every stage of your business journey.</p>
+</div>
+
+<section class="cta-section">
+  <div class="cta-inner">
+    <h2>Ready to get started?</h2>
+    <p>Let's find the right POS solution for your business. Book a free demo today — no commitment required.</p>
+    <a href="contact.html" class="cta-btn"><i class="fas fa-arrow-right"></i>Contact Us</a>
+  </div>
+</section>
+
+<footer>
+  <strong>Harmony Hardware and POS Solutions Inc.</strong><br>
+  © 2019 · Your POS Partner in Business
+</footer>
+<button id="back-to-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+<script>
+  document.getElementById('navToggle').onclick = () => document.getElementById('navLinks').classList.toggle('open');
+  const btt = document.getElementById('back-to-top');
+  window.addEventListener('scroll', () => btt.classList.toggle('visible', window.scrollY > 160));
+  btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  const reveals = document.querySelectorAll('.why-card');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.style.opacity='1'; entry.target.style.transform='translateY(0)'; observer.unobserve(entry.target); }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach((el, i) => {
+    el.style.opacity='0'; el.style.transform='translateY(22px)';
+    el.style.transition=`opacity 0.55s ${i*100}ms ease, transform 0.55s ${i*100}ms cubic-bezier(0.16,1,0.3,1)`;
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>

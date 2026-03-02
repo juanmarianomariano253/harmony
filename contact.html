@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us | HarmonyPOS</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+  --red: #c0392b;
+  --red-dark: #96241b;
+  --red-light: #e74c3c;
+  --red-glow: rgba(192,57,43,0.25);
+  --ink: #0f0a0a;
+  --ink-mid: #2a1a1a;
+  --ink-light: #5a3d3d;
+  --cream: #fdf6f0;
+  --cream-dark: #f5ede4;
+  --white: #ffffff;
+  --border-light: rgba(0,0,0,0.07);
+  --shadow-sm: 0 2px 12px rgba(15,10,10,0.08);
+  --shadow-md: 0 8px 32px rgba(15,10,10,0.12);
+  --shadow-lg: 0 20px 60px rgba(15,10,10,0.18);
+  --shadow-red: 0 8px 32px rgba(192,57,43,0.25);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;line-height:1.6;}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--cream-dark);}
+::-webkit-scrollbar-thumb{background:var(--red);border-radius:10px;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");opacity:0.5;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;height:72px;background:rgba(8,3,3,0.92);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid rgba(192,57,43,0.15);}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:700;color:#fff;text-decoration:none;letter-spacing:-0.02em;display:flex;align-items:center;gap:10px;}
+.nav-logo-mark{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,var(--red),var(--red-dark));display:flex;align-items:center;justify-content:center;font-size:1rem;color:#fff;box-shadow:0 4px 12px var(--red-glow);}
+.nav-logo span{color:var(--red);}
+.nav-links{display:flex;align-items:center;gap:36px;list-style:none;position:absolute;left:50%;transform:translateX(-50%);}
+.nav-links a{font-size:0.85rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1.5px;background:var(--red);transform:scaleX(0);transform-origin:center;transition:transform 0.25s;}
+.nav-links a:hover{color:#fff;}
+.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1);}
+.nav-links a.active{color:#fff;}
+.nav-actions{display:flex;align-items:center;gap:10px;}
+.nav-home-btn{font-size:0.82rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:rgba(255,255,255,0.65);text-decoration:none;padding:9px 18px;border-radius:8px;border:1px solid rgba(255,255,255,0.18);transition:all 0.25s;}
+.nav-home-btn:hover{background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.3);}
+.nav-cta{font-size:0.82rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;background:linear-gradient(135deg,var(--red-light),var(--red-dark));color:#fff;text-decoration:none;padding:10px 22px;border-radius:8px;box-shadow:0 4px 16px var(--red-glow);transition:all 0.25s;display:flex;align-items:center;gap:8px;}
+.nav-cta.active,.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px var(--red-glow);}
+.nav-toggle{display:none;background:none;border:none;color:#fff;font-size:1.2rem;cursor:pointer;}
+
+/* HERO */
+.hero{position:relative;min-height:460px;display:flex;align-items:center;justify-content:center;text-align:center;padding:150px 5vw 100px;background:var(--ink);overflow:hidden;}
+.hero-bg-grid{position:absolute;inset:0;opacity:0.035;background-image:linear-gradient(rgba(255,255,255,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.5) 1px,transparent 1px);background-size:60px 60px;}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
+.hero-orb-1{width:550px;height:550px;bottom:-280px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(192,57,43,0.35) 0%,transparent 60%);animation:orbPulse 7s ease-in-out infinite;}
+@keyframes orbPulse{0%,100%{opacity:1;}50%{opacity:0.6;}}
+.hero-content{position:relative;z-index:1;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(192,57,43,0.15);border:1px solid rgba(192,57,43,0.35);color:#f5c5bf;font-size:0.78rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:7px 16px;border-radius:100px;margin-bottom:28px;opacity:0;animation:fadeUp 0.6s 0.2s ease forwards;}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink 2s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5.5vw,4.5rem);color:#fff;line-height:1.1;font-weight:900;opacity:0;animation:fadeUp 0.7s 0.35s ease forwards;letter-spacing:-0.02em;}
+.hero h1 em{color:var(--red);font-style:italic;}
+.hero-desc{max-width:500px;margin:24px auto 0;color:rgba(255,255,255,0.5);font-size:1.05rem;line-height:1.85;font-weight:300;opacity:0;animation:fadeUp 0.7s 0.5s ease forwards;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* SECTION */
+.section{padding:100px 5vw;position:relative;}
+.container{max-width:1100px;margin:0 auto;}
+.section-label{display:inline-flex;align-items:center;gap:10px;font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--red);margin-bottom:14px;}
+.section-label::before{content:'';display:block;width:24px;height:1.5px;background:var(--red);}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,3.5vw,2.8rem);color:var(--ink);margin-bottom:56px;line-height:1.18;font-weight:700;letter-spacing:-0.02em;}
+.section-title em{color:var(--red);font-style:italic;}
+
+/* CONTACT GRID */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;}
+
+/* INFO PANEL */
+.info-panel{display:flex;flex-direction:column;gap:16px;}
+.info-card{background:var(--white);border:1px solid var(--border-light);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-sm);}
+.info-card-head{background:linear-gradient(135deg,var(--ink-mid),#1a0808);padding:28px 32px;border-bottom:1px solid rgba(192,57,43,0.2);}
+.info-card-head h4{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:#fff;}
+.info-card-head p{color:rgba(255,255,255,0.45);font-size:0.88rem;margin-top:4px;}
+.contact-items{padding:8px 0;}
+.contact-item{display:flex;gap:18px;align-items:flex-start;padding:18px 32px;border-bottom:1px solid var(--border-light);transition:background 0.2s;}
+.contact-item:last-child{border-bottom:none;}
+.contact-item:hover{background:rgba(192,57,43,0.03);}
+.ci-icon{width:42px;height:42px;border-radius:10px;background:rgba(192,57,43,0.08);border:1px solid rgba(192,57,43,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;transition:background 0.2s;}
+.contact-item:hover .ci-icon{background:rgba(192,57,43,0.15);}
+.ci-icon i{color:var(--red);font-size:0.95rem;}
+.ci-label{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);margin-bottom:5px;}
+.ci-value{font-size:0.95rem;color:var(--ink-light);line-height:1.7;}
+.ci-value a{color:var(--ink-mid);text-decoration:none;transition:color 0.2s;}
+.ci-value a:hover{color:var(--red);}
+
+/* SOCIAL ROW */
+.social-row{display:flex;gap:10px;margin-top:4px;}
+.social-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:8px;background:rgba(192,57,43,0.06);border:1px solid rgba(192,57,43,0.12);color:var(--ink-mid);text-decoration:none;font-size:0.82rem;font-weight:600;transition:all 0.2s;}
+.social-btn:hover{background:var(--red);color:#fff;border-color:var(--red);}
+
+/* HOURS CARD */
+.hours-card{background:var(--white);border:1px solid var(--border-light);border-radius:16px;padding:28px 32px;box-shadow:var(--shadow-sm);}
+.hours-title{font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--red);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.hours-title::before{content:'';display:block;width:16px;height:1.5px;background:var(--red);}
+.hours-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border-light);font-size:0.9rem;}
+.hours-row:last-child{border-bottom:none;padding-bottom:0;}
+.hours-day{color:var(--ink-mid);font-weight:500;}
+.hours-time{color:var(--ink-light);}
+.hours-badge{background:rgba(192,57,43,0.08);color:var(--red);padding:3px 9px;border-radius:100px;font-size:0.72rem;font-weight:700;letter-spacing:0.06em;}
+
+/* MAP */
+.map-card{background:var(--white);border:1px solid var(--border-light);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-md);}
+.map-head{padding:20px 28px;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:12px;}
+.map-head-icon{width:36px;height:36px;border-radius:9px;background:rgba(192,57,43,0.08);border:1px solid rgba(192,57,43,0.15);display:flex;align-items:center;justify-content:center;}
+.map-head-icon i{color:var(--red);font-size:0.9rem;}
+.map-head-label{font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);}
+.map-head-addr{font-size:0.88rem;color:var(--ink-mid);margin-top:2px;}
+.map-card iframe{display:block;width:100%;height:420px;border:none;}
+.map-footer{padding:16px 28px;display:flex;gap:10px;border-top:1px solid var(--border-light);}
+.map-link{display:inline-flex;align-items:center;gap:7px;font-size:0.82rem;font-weight:600;letter-spacing:0.04em;color:var(--red);text-decoration:none;transition:gap 0.2s;}
+.map-link:hover{gap:11px;}
+.map-link i{font-size:0.75rem;}
+
+/* FOOTER */
+footer{background:var(--ink);border-top:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.3);text-align:center;padding:32px 5vw;font-size:0.88rem;}
+footer strong{color:rgba(255,255,255,0.55);}
+
+/* BACK TO TOP */
+#back-to-top{position:fixed;bottom:28px;right:28px;z-index:900;width:48px;height:48px;border-radius:12px;background:var(--ink);border:1px solid rgba(255,255,255,0.1);cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,0.3);transition:all 0.25s;color:#fff;font-size:0.9rem;}
+#back-to-top:hover{transform:translateY(-3px);background:var(--red);}
+#back-to-top.visible{display:flex;}
+
+@media(max-width:900px){.contact-grid{grid-template-columns:1fr;}}
+@media(max-width:768px){
+  .nav-links{display:none;}
+  .nav-toggle{display:block;}
+  .nav-cta{display:none;}
+  .nav-links.open{display:flex;flex-direction:column;position:absolute;top:72px;left:0;right:0;background:rgba(8,3,3,0.97);padding:24px 5vw;gap:20px;border-top:1px solid rgba(192,57,43,0.15);}
+  .map-card iframe{height:300px;}
+}
+</style>
+</head>
+<body>
+
+<nav id="mainNav">
+  <a class="nav-logo" href="index.html">
+    <div class="nav-logo-mark"><i class="fas fa-cash-register"></i></div>
+    HarmonyPOS</span>
+  </a>
+  <button class="nav-toggle" id="navToggle"><i class="fas fa-bars"></i></button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="features.html">Features</a></li>
+    <li><a href="why-us.html">Why Us</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="index.html" class="nav-home-btn"><i class="fas fa-home" style="font-size:.75rem;margin-right:6px;"></i>Home</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>Get in Touch</div>
+    <h1>Let's <em>Work Together</em></h1>
+    <p class="hero-desc">Let's help your business grow with HarmonyPOS. Reach out and we'll get back to you quickly.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-label">Reach Us</div>
+    <h2 class="section-title">Company <em>information</em></h2>
+
+    <div class="contact-grid">
+      <div class="info-panel">
+        <div class="info-card">
+          <div class="info-card-head">
+            <h4>Get in Contact</h4>
+            <p>We'd love to hear from you. Choose your preferred channel.</p>
+          </div>
+          <div class="contact-items">
+            <div class="contact-item">
+              <div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div>
+                <div class="ci-label">  </div>
+                <div class="ci-value">
+                    B29 L33 Road 26 Azalea Vista Pangao,<br>Lipa City, Batangas
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="ci-icon"><i class="fas fa-phone"></i></div>
+              <div>
+                <div class="ci-label">Phone</div>
+                <div class="ci-value">
+                  <a href="tel:09104246258">0910 424 6258</a>&nbsp; / &nbsp;<a href="tel:0437574731">043 757 4731</a>
+                </div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="ci-icon"><i class="fas fa-envelope"></i></div>
+              <div>
+                <div class="ci-label">Email</div>
+                <div class="ci-value"><a href="mailto:sales.harmonypos@gmail.com">sales.harmonypos@gmail.com</a></div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="ci-icon"><i class="fas fa-share-nodes"></i></div>
+              <div>
+                <div class="ci-label">Social Media</div>
+                <div class="ci-value">
+                  <div class="social-row">
+                    <a href="https://www.facebook.com/profile.php?id=100075677365394" target="_blank" class="social-btn">
+                      <i class="fab fa-facebook"></i> Facebook
+                    </a>
+                    <a href="https://www.tiktok.com/@harmony.pos" target="_blank" class="social-btn">
+                      <i class="fab fa-tiktok"></i> TikTok
+                    </a>
+                    <a href="https://www.instagram.com/harmony2025vii?igsh=ejd4bTVtMTVlZm40" target="_blank" class="social-btn">
+                      <i class="fab fa-instagram"></i> Instagram
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hours-card">
+          <div class="hours-title">Business Hours</div>
+          <div class="hours-row">
+            <span class="hours-day">Monday – Saturday</span>
+            <span class="hours-time">7:30 AM – 4:30 PM</span>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="map-card">
+        <div class="map-head">
+          <div class="map-head-icon"><i class="fas fa-map-pin"></i></div>
+          <div class="map-head-text">
+            <div class="map-head-label">Our Location</div>
+            <a href="https://maps.app.goo.gl/UtgWje81ZjiAcPSWA" target="_blank" rel="noopener">
+                    B29 L33 Road 26 Azalea Vista Pangao,<br>Lipa City, Batangas
+          </div>
+        </div>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3988.5412135410156!2d121.1131737!3d13.9248742!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd13988ebf5499%3A0x5f7276ed53167c87!2sAzalea%20Vista%20by%20Apec%20Homes!5e1!3m2!1sen!2sph!4v1771900844036!5m2!1sen!2sph"
+        </iframe>
+        <div class="map-footer">
+          <a href="https://maps.app.goo.gl/UtgWje81ZjiAcPSWA" target="_blank" class="map-link">
+            <i class="fas fa-external-link-alt"></i> Open in Google Maps
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>Harmony Hardware and POS Solutions Inc.</strong><br>
+  © 2019 · Your POS Partner in Business
+</footer>
+<button id="back-to-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+<script>
+  document.getElementById('navToggle').onclick = () => document.getElementById('navLinks').classList.toggle('open');
+  const btt = document.getElementById('back-to-top');
+  window.addEventListener('scroll', () => btt.classList.toggle('visible', window.scrollY > 160));
+  btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  const reveals = document.querySelectorAll('.info-card,.hours-card,.map-card');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.style.opacity='1'; entry.target.style.transform='translateY(0)'; observer.unobserve(entry.target); }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach((el, i) => {
+    el.style.opacity='0'; el.style.transform='translateY(22px)';
+    el.style.transition=`opacity 0.55s ${i*100}ms ease, transform 0.55s ${i*100}ms cubic-bezier(0.16,1,0.3,1)`;
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
